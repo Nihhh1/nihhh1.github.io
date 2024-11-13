@@ -105,7 +105,10 @@
                     <br>
                     Power By <a href="https://nihhh1.github.io/">倪炜豪</a> |
                     <span id="site-time"></span>
+                    <br>
+                    本站总访问量<span id="visitorCount">加载中...</span>次
                 </p>
+
             </div>
         </div>
     </div>
@@ -150,7 +153,7 @@
         var todayMinute = today.getMinutes()
         var todaySecond = today.getSeconds()
 
-        var t1 = Date.UTC(2017, 2, 11, 0, 0, 0)
+        var t1 = Date.UTC(2024, 10, 8, 0, 0, 0)
         var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond)
         var diff = t2 - t1
         var diffYears = Math.floor(diff / years)
@@ -212,6 +215,25 @@
             };
             $('#tag_cloud a').tagcloud();
         })
+    }
+</script>
+<!-- 统计访问次数 -->
+<script>
+    // 定义一个全局变量来存储访问次数
+    let visitorCount = 0;
+
+    // 当文档加载完成时，增加访问次数并更新界面
+    function updateVisitorCount() {
+        // 从localStorage获取访问次数，如果不存在则初始化为0
+        if (localStorage.getItem('visitorCount')) {
+            visitorCount = parseInt(localStorage.getItem('visitorCount'));
+        }
+        // 增加访问次数
+        visitorCount++;
+        // 存储访问次数到localStorage
+        localStorage.setItem('visitorCount', visitorCount);
+        // 更新界面显示的访问次数
+        document.getElementById('visitorCount').textContent = visitorCount;
     }
 </script>
 
