@@ -219,22 +219,13 @@
 </script>
 <!-- 统计访问次数 -->
 <script>
-    // 定义一个全局变量来存储访问次数
-    let visitorCount = 0;
-
-    // 当文档加载完成时，增加访问次数并更新界面
-    function updateVisitorCount() {
-        // 从localStorage获取访问次数，如果不存在则初始化为0
-        if (localStorage.getItem('visitorCount')) {
-            visitorCount = parseInt(localStorage.getItem('visitorCount'));
-        }
-        // 增加访问次数
-        visitorCount++;
-        // 存储访问次数到localStorage
-        localStorage.setItem('visitorCount', visitorCount);
-        // 更新界面显示的访问次数
-        document.getElementById('visitorCount').textContent = visitorCount;
-    }
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?deaddd274ec198f8e29b61d81c2c9fea";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
 </script>
 
 <!--fastClick.js -->
