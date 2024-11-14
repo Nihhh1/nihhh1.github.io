@@ -109,5 +109,8 @@ friends: [
     },{
         title: "Apple Developer",
         href: "https://developer.apple.com/"
+    },{
+        title: "JH's Blog",
+        href: "https://tjra.top"
     }
 ]
