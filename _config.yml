@@ -109,5 +109,8 @@ friends: [
     },{
         title: "Google",
         href: "https://about.google/"
+    },{
+        title: "JH's Blog"
+        href: "https://tjra.top"
     }
 ]
