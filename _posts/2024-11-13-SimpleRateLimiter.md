@@ -142,19 +142,19 @@ public static long rateLimiter(String key, RateType rateType, int rate, int rate
    利用一个计数器 Count .当请求来时就加一操作，当一个请求处理完成之后 就减一操作。Count > 某个值时，触发限流策略。
 
  - **1.2 漏斗算法**
+   <p>
+       <img src="https://ni-blog.oss-rg-china-mainland.aliyuncs.com/my-blog/75e1b3fc63ddc4db6e29655bf86b5164.png" alt="注解一" title="注解一" />
+   </p>
+    利用漏斗模型来控制，请求处理的流量；通常实现方式是通过一个**队列**来实现；当请求过多时，队列就会开始积压请求，如果队列满了，就会开拒绝请求。很多系统都有这样的设计，例如：TCP的请求，和滑动窗口。
 
-​		利用漏斗模型来控制，请求处理的流量；通常实现方式是通过一个**队列**来实现；当请求过多时，队列就会开始积压请求，如果队列满了，就会开拒绝请求。很多系统都有这样的设计，例如：TCP的请求，和滑动窗口。
 
-<p>
-    <img src="https://ni-blog.oss-rg-china-mainland.aliyuncs.com/my-blog/75e1b3fc63ddc4db6e29655bf86b5164.png" alt="注解一" title="注解一" />
-
+  
 - **1.3 令牌桶算法**
 
   关于`令牌桶`算法，主要是有一个中间人(**通常是一个任务…**)。在一个桶内按照一定的速率放入一些 token，然后，处理程序要处理请求时，需要拿到 token，才能处理；如果拿不到，则不处理。并且桶的大小是会有限制的，超出之后就被丢弃或者拒绝**这其实一个主动流控的方式。**
 
 #### 2. Guava的RateLimter工具
-
-_RateLimiter使用的是一种叫令牌桶的流控算法，RateLimiter会按照一定的频率往桶里扔令牌，线程拿到令牌才能执行。**它其实就是令牌桶流控算法的一种实现**
+  RateLimiter使用的是一种叫令牌桶的流控算法，RateLimiter会按照一定的频率往桶里扔令牌，线程拿到令牌才能执行。**它其实就是令牌桶流控算法的一种实现**
 
 #### 2.1 使用
 
