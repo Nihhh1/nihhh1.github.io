@@ -2,7 +2,6 @@
 
 layout: post
 title: Mybatis-Plus实现鉴权
-subtitle: Mybatis-Plus实现鉴权的底层原理
 date: 2024-11-11
 author: ni
 catalog: true

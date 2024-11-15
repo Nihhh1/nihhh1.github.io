@@ -2,7 +2,6 @@
 
 layout: post
 title: SimpleRateLimiter
-subtitle: SimpleRateLimiter
 date: 2024-11-13
 author: ni
 catalog: true

@@ -53,7 +53,9 @@ layout: default
                     {% comment %} endif {% endcomment %}
                     <span class="meta">Posted by {% if page.author %}{{ page.author }}{% else %}{{ site.title }}{% endif
                         %} on {{ page.date | date: "%B %-d, %Y" }}</span>
-                    {{ content | strip_html | strip_newlines | split: "" | size }} 字 | {{ content | strip_html |
+                    <br>
+
+                    本文共{{ content | strip_html | strip_newlines | split: "" | size }} 字 | 大约需要{{ content | strip_html |
                     strip_newlines | split: "" | size | divided_by: 300.0 | round: 2 }} 分钟阅读
                 </div>
             </div>
