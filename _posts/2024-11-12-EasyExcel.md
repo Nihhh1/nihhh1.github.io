@@ -25,9 +25,11 @@ tags:
     <img src="https://ni-blog.oss-rg-china-mainland.aliyuncs.com/my-blog/Snipaste_2024-11-12_19-24-01.png" alt="注解一" title="注解一" />
   
   
+  
 - **2、创建自定义转换器可以在把数据传给监听器之前根据字典进行转换**
 	<p>
     <img src="https://ni-blog.oss-rg-china-mainland.aliyuncs.com/my-blog/Snipaste_2024-11-12_18-51-33.png" alt="注解一" title="注解一" />
+  
   
   
 - **3、创建要转换的实体类进行标注ExcelProperty取名，如果要字典转换要指定转换器，可根据传进来的字典类型，查询数据库**
@@ -44,11 +46,9 @@ tags:
 	  <img src="https://ni-blog.oss-rg-china-mainland.aliyuncs.com/my-blog/Snipaste_2024-11-12_19-25-13.png" alt="注解一" title="注解一" />
   
 	
-	
 - **在doRead方法里进行读取数据**
 	<p>
     <img src="https://ni-blog.oss-rg-china-mainland.aliyuncs.com/my-blog/Snipaste_2024-11-12_19-27-09.png" alt="注解一" title="注解一" />
-  
   
   
 - **读取完数据后，会被拦截器拦截，进行额外操作，例如根据字典进行转换**

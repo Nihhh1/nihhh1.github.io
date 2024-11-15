@@ -132,3 +132,106 @@ public static long rateLimiter(String key, RateType rateType, int rate, int rate
         }
     }
 ```
+
+## 拓展
+
+#### 1. 市面上常见的限流算法
+
+ - **1.1 计数器**
+
+   利用一个计数器 Count .当请求来时就加一操作，当一个请求处理完成之后 就减一操作。Count > 某个值时，触发限流策略。
+
+ - **1.2 漏斗算法**
+
+​		利用漏斗模型来控制，请求处理的流量；通常实现方式是通过一个**队列**来实现；当请求过多时，队列就会开始积压请求，如果队列满了，就会开拒绝请求。很多系统都有这样的设计，例如：TCP的请求，和滑动窗口。
+
+<p>
+    <img src="https://ni-blog.oss-rg-china-mainland.aliyuncs.com/my-blog/75e1b3fc63ddc4db6e29655bf86b5164.png" alt="注解一" title="注解一" />
+
+- **1.3 令牌桶算法**
+
+  关于`令牌桶`算法，主要是有一个中间人(**通常是一个任务…**)。在一个桶内按照一定的速率放入一些 token，然后，处理程序要处理请求时，需要拿到 token，才能处理；如果拿不到，则不处理。并且桶的大小是会有限制的，超出之后就被丢弃或者拒绝**这其实一个主动流控的方式。**
+
+#### 2. Guava的RateLimter工具
+
+_RateLimiter使用的是一种叫令牌桶的流控算法，RateLimiter会按照一定的频率往桶里扔令牌，线程拿到令牌才能执行。**它其实就是令牌桶流控算法的一种实现**
+
+#### 2.1 使用
+
+- **导入maven依赖**
+
+```java
+<dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>19.0</version>
+</dependency>
+```
+
+- **配置RateLimiter**
+
+```java
+  @Configuration
+public class RateLimiterConfig {
+
+    @Value("${rate.limiter:30}")
+    private Integer rateLimiter;
+
+    @Bean
+    public RateLimiter rateLimiter(){
+        return RateLimiter.create(rateLimiter);
+    }
+    
+}
+```
+
+- **使用代码**
+
+```java
+/**
+ * @author liuzihao
+ * @create 2022-01-15-12:30
+ * 限流
+ */
+@RestController
+@Slf4j
+public class RateLimiterController {
+
+    @Autowired
+    RateLimiter rateLimiter;
+
+    /**
+     * 非阻塞限流接口,
+     * @return
+     */
+    @GetMapping("/tryAcquire")
+    public String tryAcquire() {
+
+        log.info("非阻塞限流接口");
+
+        /**
+         * 尝试获取令牌，如未获取到则直接失败(也可以设置try的时间)
+         */
+        if (rateLimiter.tryAcquire()) {
+            log.info("通过.../ 数率为{}", rateLimiter.getRate());
+            return "success";
+        }
+        return "fail";
+
+    }
+
+    /**
+     * 阻塞接口
+     */
+
+    @GetMapping("/acquire")
+    public String acquire() {
+        rateLimiter.acquire();
+        log.info("通过流接口....... -流量：{}", rateLimiter.getRate());
+
+        return "success";
+    }
+}
+```
+
+  
