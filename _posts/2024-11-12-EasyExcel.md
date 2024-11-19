@@ -22,19 +22,19 @@ tags:
 
 - **1、创建一个自定义监听器实现ExcelListener接口**
 	<p>
-    <img src="https://ni-blog.oss-rg-china-mainland.aliyuncs.com/my-blog/Snipaste_2024-11-12_19-24-01.png" alt="注解一" title="注解一" />
+    <img src="https://nihhh1-blog.oss-cn-beijing.aliyuncs.com/my-blog/Snipaste_2024-11-12_19-24-01.png" alt="注解一" title="注解一" />
   
   
   
 - **2、创建自定义转换器可以在把数据传给监听器之前根据字典进行转换**
 	<p>
-    <img src="https://ni-blog.oss-rg-china-mainland.aliyuncs.com/my-blog/Snipaste_2024-11-12_18-51-33.png" alt="注解一" title="注解一" />
+    <img src="https://nihhh1-blog.oss-cn-beijing.aliyuncs.com/my-blog/Snipaste_2024-11-12_18-51-33.png" alt="注解一" title="注解一" />
   
   
   
 - **3、创建要转换的实体类进行标注ExcelProperty取名，如果要字典转换要指定转换器，可根据传进来的字典类型，查询数据库**
 	<p>
-    <img src="https://ni-blog.oss-rg-china-mainland.aliyuncs.com/my-blog/Snipaste_2024-11-12_19-35-23.png" alt="注解一" title="注解一" />
+    <img src="https://nihhh1-blog.oss-cn-beijing.aliyuncs.com/my-blog/Snipaste_2024-11-12_19-35-23.png" alt="注解一" title="注解一" />
   
   
 
@@ -43,12 +43,14 @@ tags:
 - **在导入之前，通过exportExcel方法进行生成模版，通过指定的类获取属性，通过转换获得有指定格式的Excel在里面添加数据后可进行导入**
 	
   <p>
-	  <img src="https://ni-blog.oss-rg-china-mainland.aliyuncs.com/my-blog/Snipaste_2024-11-12_19-25-13.png" alt="注解一" title="注解一" />
+	  <img src="https://nihhh1-blog.oss-cn-beijing.aliyuncs.com/my-blog/Snipaste_2024-11-12_19-25-13.png" alt="注解一" title="注解一" />
   
+	
 	
 - **在doRead方法里进行读取数据**
 	<p>
-    <img src="https://ni-blog.oss-rg-china-mainland.aliyuncs.com/my-blog/Snipaste_2024-11-12_19-27-09.png" alt="注解一" title="注解一" />
+    <img src="https://nihhh1-blog.oss-cn-beijing.aliyuncs.com/my-blog/Snipaste_2024-11-12_19-27-09.png" alt="注解一" title="注解一" />
+  
   
   
 - **读取完数据后，会被拦截器拦截，进行额外操作，例如根据字典进行转换**
@@ -56,7 +58,7 @@ tags:
 - **执行监听器的invoke方法**
 
     <p>
-    <img src="https://ni-blog.oss-rg-china-mainland.aliyuncs.com/my-blog/Snipaste_2024-11-12_18-39-51.png" alt="注解一" title="注解一" />
+    <img src="https://nihhh1-blog.oss-cn-beijing.aliyuncs.com/my-blog/Snipaste_2024-11-12_18-39-51.png" alt="注解一" title="注解一" />
 
 ## 源码解析
 
@@ -137,7 +139,9 @@ public class EasyExcel extends EasyExcelFactory {
 
 #### 2.2ExcelReaderBuilder 构造ReadWorkbook
 
-ReadWorkbook 类记录的是读 excel 这个动作的所有属性，比如读取的是哪种 excel 文件（xls，还是 xlsx），哪个文件，是否忽略空行，等等。
+<p>
+<img src="https://nihhh1-blog.oss-cn-beijing.aliyuncs.com/my-blog/Snipaste_2024-11-11_17-18-20.png" alt="填充，返回条件" title="填充，返回条件"  />
+</p>
 
 ```java
 public class ReadWorkbook extends ReadBasicParameter {

@@ -27,45 +27,48 @@ tags:
 
 - **1、权限注解根据注解获取被权限管理的所有Bean**
   <p>
-    <img src="https://ni-blog.oss-rg-china-mainland.aliyuncs.com/Snipaste_2024-11-11_15-39-57.png" alt="注解一" title="注解一" />
+    <img src="https://nihhh1-blog.oss-cn-beijing.aliyuncs.com/my-blog/Snipaste_2024-11-11_15-39-57.png" alt="注解一" title="注解一" />
   </p>
 
 -  **2、存储权限内占位符名称，以及替换值**
+  
   <p>
-   <img src="https://ni-blog.oss-rg-china-mainland.aliyuncs.com/db20ff071cf1268bdea75101aab4bc5.png" alt="注解一" title="注解一"  />
+   <img src="https://nihhh1-blog.oss-cn-beijing.aliyuncs.com/my-blog/db20ff071cf1268bdea75101aab4bc5.png" alt="注解一" title="注解一"  />
   </p>
   
 - **3、权限列表**
   <p>
-   <img src="https://ni-blog.oss-rg-china-mainland.aliyuncs.com/Snipaste_2024-11-11_15-44-21.png" alt="权限枚举" title="权限枚举"  />
+   <img src="https://nihhh1-blog.oss-cn-beijing.aliyuncs.com/my-blog/Snipaste_2024-11-11_15-44-21.png" alt="权限枚举" title="权限枚举"  />
   </p>
+
 ## 鉴权流程
 
 - **创建一个拦截器并且继承 BaseMultiTableInnerInterceptor 实现InnerInterceptor**
    <p>
-   <img src="https://ni-blog.oss-rg-china-mainland.aliyuncs.com/Snipaste_2024-11-11_15-40-43.png" alt="权限枚举" title="权限枚举" />
+   <img src="https://nihhh1-blog.oss-cn-beijing.aliyuncs.com/my-blog/Snipaste_2024-11-11_15-40-43.png" alt="权限枚举" title="权限枚举" />
   </p>
 - **在MybatisConfig配置类中会进行添加拦截器操作，通过注解PropertySource获取资源文件，通过资源文件获取要扫描的包路径**
   <p>
-   <img src="https://ni-blog.oss-rg-china-mainland.aliyuncs.com/Snipaste_2024-11-11_16-33-06.png" alt="拦截器初始化" title="拦截器初始化"  />
+   <img src="https://nihhh1-blog.oss-cn-beijing.aliyuncs.com/my-blog/Snipaste_2024-11-11_16-33-06.png" alt="拦截器初始化" title="拦截器初始化"  />
   </p>
 - **在拦截器初始化过程中会调用执行器的构造函数，在执行器的构造函数中，会对被标记的Mapper类和方法进行加载**
   <p>
-   <img src="https://ni-blog.oss-rg-china-mainland.aliyuncs.com/Snipaste_2024-11-11_15-42-59.png" alt="执行器初始化" title="执行器初始化"  />
+   <img src="https://nihhh1-blog.oss-cn-beijing.aliyuncs.com/my-blog/Snipaste_2024-11-11_15-42-59.png" alt="执行器初始化" title="执行器初始化"  />
   </p>
 - **拦截器会在执行sql语句前进行设置where条件，在设置条件时就会调`执行器`的`getSqlSegment`方法**
   <p>
-   <img src="https://ni-blog.oss-rg-china-mainland.aliyuncs.com/Snipaste_2024-11-11_17-05-14.png" alt="getSqlSegment" title="getSqlSegment"  />
+   <img src="https://nihhh1-blog.oss-cn-beijing.aliyuncs.com/my-blog/Snipaste_2024-11-11_17-05-14.png" alt="getSqlSegment" title="getSqlSegment"  />
   </p>
 - **查看buildDataFilter方法**
-  - **提前准备数据**
+  
+	- **提前准备数据**
 	   <p>
-	   <img src="https://ni-blog.oss-rg-china-mainland.aliyuncs.com/Snipaste_2024-11-11_17-12-13.png" alt="查看buildDataFilter方法" title="查看buildDataFilter方法" />
-	   </p>
+	   <img src="https://nihhh1-blog.oss-cn-beijing.aliyuncs.com/my-blog/Snipaste_2024-11-11_17-12-13.png" alt="查看buildDataFilter方法" title="查看buildDataFilter方法" />
+     </p>
   - **进行填充，返回条件**
   
      <p>
-     <img src="https://ni-blog.oss-rg-china-mainland.aliyuncs.com/Snipaste_2024-11-11_17-18-20.png" alt="填充，返回条件" title="填充，返回条件"  />
+     <img src="https://nihhh1-blog.oss-cn-beijing.aliyuncs.com/my-blog/Snipaste_2024-11-11_17-18-20.png" alt="填充，返回条件" title="填充，返回条件"  />
      </p>
      
     - **最后根据开头的joinStr去掉开头多的OR或者AND返回完整sql条件**
