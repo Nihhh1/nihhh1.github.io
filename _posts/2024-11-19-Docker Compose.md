@@ -1,12 +1,12 @@
 ---
 layout: post
 title: Docker Compose
-date: 2024-11-18
+date: 2024-11-19
 author: ni
 catalog: true
 tags:
   - docker
-  - 
+
 ---
 
 ## 前言
@@ -18,8 +18,8 @@ tags:
 - 使用Docker时步骤
   - 1. 定义`Dockerfile`文件
   - 2. 使用`docker build`、`docker run `等命令操作容器
-- 但是当使用`微服务架构`的系统时，会有多个实例需要部署，如果每个都手动启停，那就会出现**效率低下**，**维护**难得问题
-- <font color=#FF0000 >为了提高效率，需要一种工具，能够对多个容器进行编排和部署的工具</font>
+- 但是当使用`微服务架构`的系统时，会有多个实例需要部署，如果每个都手动启停，那就会出现**效率低下**，**维护难**的问题
+- <font color=#FF0000 > 为了提高效率，需要一种工具，能够对多个容器进行编排和部署的工具</font>
 - `Docker Compose` 就可以解决上述问题
 
 ## 作用
@@ -215,3 +215,201 @@ volumes:
   - 1. 最后，contaier 模块会调用 docker-py 客户端来执行向 docker daemon 发起创建容器的 POST 请求。
 
 ## 2. Docker Compose 安装卸载与运维使用
+
+	#### 2.1 安装
+
+ - 安装 `docker compose v2` | 官网
+
+   You can download Docker Compose binaries from the [release page](https://github.com/docker/compose/releases) on this repository.
+    Rename the relevant binary for your OS to docker-compose and copy it to $HOME/.docker/cli-plugins
+    Or copy it into one of these folders to install it system-wide:
+
+#### 2.2 容器管理
+
+##### 2.2.1 构建镜像
+
+​	docker-compose build
+
+- 构建或者重新构建服务的镜像，但不会创建和启动容器
+
+- 当你改变本地代码之后，先执行 docker-compose build 构建新的镜像，然后执行 docker-compose up -d 取代运行中的容器
+
+  ```
+  docker-compose build
+  
+  docker-compose -f docker-compose.yml build
+  ```
+
+- 构建指定的镜像
+
+  - 如，仅web目标将需要构建映像
+
+  ```yaml
+  version: '3.2'
+  
+  services:
+    database:
+      image: mariadb
+      restart: always
+      volumes:
+        - ./.data/sql:/var/lib/mysql
+  
+    web:
+      build:
+        dockerfile: Dockerfile-alpine
+        context: ./web
+      ports:
+        - 8099:80
+      depends_on:
+        - database
+  ```
+
+##### 2.2.2 构建镜像，并部署、启动容器(up)
+
+- docker-compose up
+
+用于部署一个 Compose 应用。 默认情况下该命令会读取名为 docker-compose.yml 或 docker-compose.yaml 的文件。
+
+当然用户也可以使用 -f 指定其他文件名。通常情况下，会使用 -d 参数令应用在后台启动。
+
+```shell
+docker-compose up
+
+docker-compose -f docker-compose.yml up -d
+
+docker-compose -f docker-compose-non-dev.yml up -d
+```
+
+##### 2.2.3 从【镜像仓库】中【拉取镜像】(pull)
+
+- docker-compose pull
+
+`docker compose pull` 是一个Docker Compose命令，用于从**镜像仓库**中拉取所需的Docker镜像。
+
+它的作用是根据`docker-compose.yml`文件中定义的服务和镜像名称，从配置的镜像仓库中下载最新版本的镜像。如果本地没有需要的镜像或者需要更新已有的镜像版本时，使用docker compose pull命令可以获取最新的镜像并存储到本地。
+
+如果要使用`docker compose pull`命令，需要在命令行中切换到包含`docker-compose.yml`文件的目录，然后执行该命令即可。代码示例如下：
+
+```shell
+cd /path/to/docker-compose
+docker compose pull
+```
+
+> demo
+
+```shell
+docker compose -f docker-compose-non-dev.yml pull
+```
+
+##### 2.2.4 启动容器
+
+- 启动所有的容器
+
+```shell
+docker-compose start
+```
+
+- 启动指定的容器，如果不指定则停止所有的容器
+
+```shell
+docker-compose start {containerName}
+```
+
+- 重启所有的容器 | docker-compose restart
+  - 重启已停止的 Compose 应用。 如果用户在停止该应用后对其进行了变更，那么变更的内容不会反映在重启后的应用中
+  - 这时需要重新部署应用使变更生效。
+
+```shell
+docker-compose restart
+```
+
+- 重启指定的容器
+
+```shell
+docker-compose restart web
+```
+
+##### 2.2.5 停止容器
+
+> 停止 Compose 应用相关的所有容器，但**不会删除**它们。 被停止的应用可以很容易地通过 docker-compose restart 命令重新启动。
+
+- 停止所有容器
+
+```shell
+docker-compose stop
+```
+
+- 停止指定容器，若不指定则停止所有的容器
+
+```shell
+docker-compose stop container_name
+```
+
+##### 2.3 删除镜像
+
+- 删除镜像 | docker-compose rm
+
+> 用于删除已停止的 Compose 应用；
+>  它会删除容器和网络，但是不会删除卷和镜像。
+
+```shell
+docker-compose rm
+```
+
+- 删除指定的已停止容器，若不指定则删除所有已停止容器
+
+```shell
+docker-compose rm {containerName/containerId}
+```
+
+##### 2.3.1 停止、删除所有容器，移除自定义网络(down)
+
+- 停止并删除运行中的 Compose 应用。 它会删除容器和网络，但是不会删除卷和镜像
+
+```shell
+docker-compose down
+```
+
+> demo
+
+```shell
+# 停止并移除容器 docker-compose 的所有资源 | 停止并移除docker-compose.yml中定义的所有容器、网络和数据卷
+# cd /root/projects/superset
+# docker-compose -f docker-compose-non-dev.yml down
+```
+
+##### 2.4 查看运行的容器
+
+```shell
+docker-compose ls
+```
+
+- docker-compose ps
+
+> 用于列出 Compose 应用中的各个容器。 输出内容包括当前状态、容器运行的命令以及网络端口。
+
+```shell
+docker-compose ps
+```
+
+##### 2.5 查看指定容器的日志
+
+- 查看具体容器的日志
+  - -f 参数表示：**实时日志输出**
+
+```shell
+docker-compose logs -f {containerName/containerId}
+```
+
+##### 2.6 查看指定容器端口所绑定的宿主机端口
+
+> 即 查看某个容器端口所映射的公共端口
+
+```shell
+docker-compose port [options] {containerName} {containerPort}
+	--protocol=proto 指定端口协议，tcp（默认值）或者 udp
+	--index=index 如果同一服务存在多个容器，指定命令对象容器的序号（默认为 1）
+# 下面结果表示：将web服务的5000端口映射到了宿主机的5001端口
+[root@centos01 ~]# docker-compose port web 5000
+0.0.0.0:5001
+```
