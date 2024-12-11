@@ -10,11 +10,13 @@
 
     {{ content }}
 
-    <div class="search-container">
-        <input type="text" id="search-input" class="search-input" placeholder="搜索文章...">
-        <ul id="search-results"></ul>
-    </div>
+    {% include footer.html %}
 
+    <!-- Image to hack wechat -->
+    <img src="/img/apple-touch-icon.png" width="0" height="0" />
+    
+    <!-- 在这里添加搜索初始化脚本 -->
+    <script src="https://unpkg.com/simple-jekyll-search@latest/dest/simple-jekyll-search.min.js"></script>
     <script>
     var searchResults = document.getElementById('search-results');
     var searchInput = document.getElementById('search-input');
@@ -37,21 +39,13 @@
         searchResultTemplate: '<li><a href="{url}">{title}</a><br><span>{date}</span><p>{description}</p></li>',
         noResultsText: '没有找到相关文章',
         limit: 10,
-        fuzzy: true, // 启用模糊搜索
+        fuzzy: true,
         fuzzyOptions: {
-            threshold: 0.4,    // 匹配阈值，越低越严格
-            distance: 100      // 允许的最大编辑距离
+            threshold: 0.4,
+            distance: 100
         }
     });
     </script>
-
-    {% include footer.html %}
-
-
-<!-- Image to hack wechat -->
-<img src="/img/apple-touch-icon.png" width="0" height="0" />
-<!-- Migrate from head to bottom, no longer block render and still work -->
-
 </body>
 
 </html>
