@@ -1,0 +1,25 @@
+.search-container {
+    margin: 20px auto;
+    max-width: 600px;
+    padding: 0 15px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 12px 24px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+#search-results {
+    margin-top: 20px;
+    padding: 0;
+    list-style: none;
+}
+
+#search-results li {
+    margin-bottom: 15px;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+} 

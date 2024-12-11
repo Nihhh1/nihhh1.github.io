@@ -10,6 +10,23 @@
 
     {{ content }}
 
+    <div class="search-container">
+        <input type="text" id="search-input" class="search-input" placeholder="搜索文章...">
+        <ul id="search-results"></ul>
+    </div>
+
+    <script>
+    var sjs = SimpleJekyllSearch({
+        searchInput: document.getElementById('search-input'),
+        resultsContainer: document.getElementById('search-results'),
+        json: '{{ site.baseurl }}/search.json',
+        searchResultTemplate: '<li><a href="{url}">{title}</a><br><span>{date}</span><p>{description}</p></li>',
+        noResultsText: '没有找到相关文章',
+        limit: 10,
+        fuzzy: false
+    });
+    </script>
+
     {% include footer.html %}
 
 
