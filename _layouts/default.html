@@ -16,14 +16,32 @@
     </div>
 
     <script>
+    var searchResults = document.getElementById('search-results');
+    var searchInput = document.getElementById('search-input');
+
+    // 显示/隐藏搜索结果
+    searchInput.addEventListener('focus', function() {
+        searchResults.style.display = 'block';
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!searchResults.contains(e.target) && e.target !== searchInput) {
+            searchResults.style.display = 'none';
+        }
+    });
+
     var sjs = SimpleJekyllSearch({
-        searchInput: document.getElementById('search-input'),
-        resultsContainer: document.getElementById('search-results'),
+        searchInput: searchInput,
+        resultsContainer: searchResults,
         json: '{{ site.baseurl }}/search.json',
         searchResultTemplate: '<li><a href="{url}">{title}</a><br><span>{date}</span><p>{description}</p></li>',
         noResultsText: '没有找到相关文章',
         limit: 10,
-        fuzzy: false
+        fuzzy: true, // 启用模糊搜索
+        fuzzyOptions: {
+            threshold: 0.4,    // 匹配阈值，越低越严格
+            distance: 100      // 允许的最大编辑距离
+        }
     });
     </script>
 
