@@ -97,6 +97,20 @@
         __HuxNav__.close();
     })
 
+    function clearAndCloseSearch() {
+        var container = document.querySelector('.search-input-container');
+        var searchInput = document.getElementById('search-input');
+        var searchResults = document.getElementById('search-results');
+        
+        // 清空搜索框内容
+        searchInput.value = '';
+        // 隐藏搜索结果
+        searchResults.style.display = 'none';
+        searchResults.innerHTML = '';
+        // 隐藏搜索框
+        container.style.display = 'none';
+    }
+
     document.getElementById('search-button').addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -108,7 +122,7 @@
             container.style.display = 'block';
             document.getElementById('search-input').focus();
         } else {
-            container.style.display = 'none';
+            clearAndCloseSearch();
         }
     });
 
@@ -121,7 +135,7 @@
             e.target !== button && 
             !button.contains(e.target) && 
             e.target !== searchInput) {
-            container.style.display = 'none';
+            clearAndCloseSearch();
         }
     });
 
