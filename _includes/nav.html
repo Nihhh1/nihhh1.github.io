@@ -115,4 +115,39 @@
             container.style.display = 'none';
         }
     });
+
+    // 搜索功能实现
+    document.getElementById('search-input').addEventListener('input', function(e) {
+        var searchTerm = e.target.value.toLowerCase();
+        var searchResults = document.getElementById('search-results');
+        
+        if (searchTerm.length < 1) {
+            searchResults.style.display = 'none';
+            return;
+        }
+
+        // 获取所有文章数据
+        fetch('/posts.json')
+            .then(response => response.json())
+            .then(posts => {
+                // 过滤匹配的文章
+                var matchedPosts = posts.filter(post => 
+                    post.title.toLowerCase().includes(searchTerm)
+                );
+
+                // 显示搜索结果
+                if (matchedPosts.length > 0) {
+                    searchResults.innerHTML = matchedPosts
+                        .map(post => `
+                            <a href="${post.url}" class="search-result-item">
+                                <div class="search-title">${post.title}</div>
+                            </a>
+                        `).join('');
+                    searchResults.style.display = 'block';
+                } else {
+                    searchResults.innerHTML = '<div class="no-results">未找到相关文章</div>';
+                    searchResults.style.display = 'block';
+                }
+            });
+    });
 </script>
