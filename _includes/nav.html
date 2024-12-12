@@ -18,8 +18,13 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li>
                         <div class="navbar-search">
-                            <input type="text" id="search-input" class="search-input" placeholder="搜索文章...">
-                            <div id="search-results" class="search-results-dropdown"></div>
+                            <button type="button" id="search-button" class="search-button">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            <div class="search-input-container" style="display: none;">
+                                <input type="text" id="search-input" class="search-input" placeholder="搜索文章...">
+                                <div id="search-results" class="search-results-dropdown"></div>
+                            </div>
                         </div>
                     </li>
                     <li>
@@ -91,4 +96,23 @@
         if(e.target.className == 'icon-bar') return;
         __HuxNav__.close();
     })
+
+    document.getElementById('search-button').addEventListener('click', function() {
+        var container = document.querySelector('.search-input-container');
+        if (container.style.display === 'none') {
+            container.style.display = 'block';
+            document.getElementById('search-input').focus();
+        } else {
+            container.style.display = 'none';
+        }
+    });
+
+    // 点击其他地方时关闭搜索框
+    document.addEventListener('click', function(e) {
+        var container = document.querySelector('.search-input-container');
+        var button = document.getElementById('search-button');
+        if (!container.contains(e.target) && e.target !== button) {
+            container.style.display = 'none';
+        }
+    });
 </script>
