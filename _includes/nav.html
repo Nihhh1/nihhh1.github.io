@@ -17,6 +17,12 @@
             <div class="navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
+                        <div class="navbar-search">
+                            <input type="text" id="search-input" class="search-input" placeholder="搜索文章...">
+                            <div id="search-results" class="search-results-dropdown"></div>
+                        </div>
+                    </li>
+                    <li>
                         <a href="{{ site.baseurl }}/">Home</a>
                     </li>
                     {% for page in site.pages %}{% if page.title %}
@@ -30,10 +36,7 @@
         <!-- /.navbar-collapse -->
         
         <!-- 在导航栏右侧添加搜索框 -->
-        <div class="navbar-search">
-            <input type="text" id="search-input" class="search-input" placeholder="搜索文章...">
-            <div id="search-results" class="search-results-dropdown"></div>
-        </div>
+        
     </div>
     <!-- /.container -->
 </nav>
