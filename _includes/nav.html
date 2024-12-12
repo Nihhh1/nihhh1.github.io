@@ -141,6 +141,8 @@
                         .map(post => `
                             <a href="${post.url}" class="search-result-item">
                                 <div class="search-title">${post.title}</div>
+                                <div class="search-date">${post.date}</div>
+                                <div class="search-divider"></div>
                             </a>
                         `).join('');
                     searchResults.style.display = 'block';

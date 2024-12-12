@@ -34,4 +34,20 @@
     padding: 10px 15px;
     color: #666;
     font-style: italic;
+}
+
+.search-date {
+    font-size: 12px;
+    color: #999;
+    margin-top: 4px;
+}
+
+.search-divider {
+    height: 1px;
+    background-color: #eee;
+    margin-top: 8px;
+}
+
+.search-result-item:last-child .search-divider {
+    display: none;
 } 
