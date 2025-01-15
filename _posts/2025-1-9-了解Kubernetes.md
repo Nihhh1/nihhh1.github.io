@@ -129,108 +129,29 @@ Knative（发音为“kay-native”）是一个开源平台，它提供了通往
 ### Kubernetes 用例
 企业组织使用 Kubernetes 来支持以下用例，这些用例在构建现代 IT 基础设施时都起着至关重要的作用。
 
-<div style="display: flex; align-items: center; margin-bottom: 20px;">
-  <svg width="60" height="60" viewBox="0 0 100 100" style="margin-right: 20px;">
-    <rect x="20" y="20" width="15" height="15" fill="none" stroke="#000" stroke-width="2"/>
-    <rect x="42.5" y="20" width="15" height="15" fill="none" stroke="#000" stroke-width="2"/>
-    <rect x="65" y="20" width="15" height="15" fill="none" stroke="#000" stroke-width="2"/>
-    <rect x="20" y="42.5" width="15" height="15" fill="none" stroke="#000" stroke-width="2"/>
-    <rect x="42.5" y="42.5" width="15" height="15" fill="none" stroke="#000" stroke-width="2"/>
-    <rect x="65" y="42.5" width="15" height="15" fill="none" stroke="#000" stroke-width="2"/>
-    <rect x="20" y="65" width="15" height="15" fill="none" stroke="#000" stroke-width="2"/>
-    <rect x="42.5" y="65" width="15" height="15" fill="none" stroke="#000" stroke-width="2"/>
-    <rect x="65" y="65" width="15" height="15" fill="none" stroke="#000" stroke-width="2"/>
-    <line x1="35" y1="27.5" x2="42.5" y2="27.5" stroke="#000" stroke-width="2"/>
-    <line x1="57.5" y1="27.5" x2="65" y2="27.5" stroke="#000" stroke-width="2"/>
-    <line x1="27.5" y1="35" x2="27.5" y2="42.5" stroke="#000" stroke-width="2"/>
-    <line x1="50" y1="35" x2="50" y2="42.5" stroke="#000" stroke-width="2"/>
-    <line x1="72.5" y1="35" x2="72.5" y2="42.5" stroke="#000" stroke-width="2"/>
-  </svg>
-  <div>
-    <h4>微服务架构和云原生开发</h4>
-    <p>云原生是一种用于构建、部署和管理基于云的应用程序的软件开发方法。云原生的主要优势在于，它允许 DevOps 和其他团队编写一次代码，然后部署在任何云服务提供商的任何云基础设施上。</p>
-    <p>这种现代开发过程依赖于微服务，这种方法中，单个应用程序由许多松散耦合且可独立部署的较小组件或服务组成，这些组件或服务部署在由 Kubernetes 管理的容器中。</p>
-    <p>有助于确保每个微服务都具有有效运行所需的资源，同时最大限度地减少与手动管理多个容器相关的运营开销。</p>
-  </div>
-</div>
+  <h4>微服务架构和云原生开发</h4>
+  <p>云原生是一种用于构建、部署和管理基于云的应用程序的软件开发方法。云原生的主要优势在于，它允许 DevOps 和其他团队编写一次代码，然后部署在任何云服务提供商的任何云基础设施上。</p>
+  <p>这种现代开发过程依赖于微服务，这种方法中，单个应用程序由许多松散耦合且可独立部署的较小组件或服务组成，这些组件或服务部署在由 Kubernetes 管理的容器中。</p>
+  <p>有助于确保每个微服务都具有有效运行所需的资源，同时最大限度地减少与手动管理多个容器相关的运营开销。</p>
 
-<div style="display: flex; align-items: center; margin-bottom: 20px;">
-  <svg width="60" height="60" viewBox="0 0 100 100" style="margin-right: 20px;">
-    <path d="M25,45 Q30,35 40,35 Q45,35 50,40 Q55,35 60,35 Q70,35 75,45 Q80,55 70,60 Q60,65 50,60 Q40,65 30,60 Q20,55 25,45" fill="none" stroke="#000" stroke-width="2"/>
-    <rect x="40" y="55" width="20" height="15" fill="none" stroke="#000" stroke-width="2"/>
-    <line x1="45" y1="58" x2="55" y2="58" stroke="#000" stroke-width="2"/>
-    <line x1="45" y1="62" x2="55" y2="62" stroke="#000" stroke-width="2"/>
-  </svg>
-  <div>
-    <h4>混合多云环境</h4>
-    <p>混合云结合并统一了公有云、私有云和本地数据中心基础设施，从而创建单一、灵活、成本最优的 IT 基础设施。</p>
-    <p>如今，混合云已与来自多家云供应商的多云、公有云服务合并，从而创建了混合多云环境。</p>
-    <p>混合多云方法可以提高灵活性，减少组织对单一供应商的依赖，从而防止供应商锁定。由于 Kubernetes 为云原生开发奠定了基础，因此它是混合多云的关键。</p>
-  </div>
-</div>
 
-<div style="display: flex; align-items: center; margin-bottom: 20px;">
-  <svg width="60" height="60" viewBox="0 0 100 100" style="margin-right: 20px;">
-    <rect x="25" y="25" width="50" height="40" fill="none" stroke="#000" stroke-width="2"/>
-    <rect x="30" y="30" width="40" height="8" fill="none" stroke="#000" stroke-width="2"/>
-    <line x1="30" y1="45" x2="70" y2="45" stroke="#000" stroke-width="2"/>
-    <line x1="30" y1="52" x2="70" y2="52" stroke="#000" stroke-width="2"/>
-  </svg>
-  <div>
-    <h4>大规模应用</h4>
-    <p>Kubernetes 支持通过自动扩展来大规模部署云应用。此过程允许应用程序扩展或缩减规模，自动适应需求变化，速度快、效率高且停机时间短。</p>
-    <p>部署的弹性可扩展性意味着可以根据用户流量的变化（例如零售网站上的限时抢购）添加或删除资源。</p>
-  </div>
-</div>
 
-<div style="display: flex; align-items: center; margin-bottom: 20px;">
-  <svg width="60" height="60" viewBox="0 0 100 100" style="margin-right: 20px;">
-    <rect x="20" y="35" width="25" height="30" fill="none" stroke="#000" stroke-width="2" rx="3"/>
-    <path d="M50,50 L60,50" stroke="#000" stroke-width="2"/>
-    <path d="M60,50 L55,45 M60,50 L55,55" stroke="#000" stroke-width="2"/>
-    <circle cx="70" cy="40" r="4" fill="none" stroke="#000" stroke-width="2"/>
-    <circle cx="70" cy="50" r="4" fill="none" stroke="#000" stroke-width="2"/>
-    <circle cx="70" cy="60" r="4" fill="none" stroke="#000" stroke-width="2"/>
-    <line x1="70" y1="40" x2="70" y2="60" stroke="#000" stroke-width="1" stroke-dasharray="2,2"/>
-  </svg>
-  <div>
-    <h4>应用程序现代化</h4>
-    <p>Kubernetes 提供了支持应用程序现代化所需的现代云平台，将单体式遗留应用程序迁移和转换为基于微服务架构的云应用程序。</p>
-  </div>
-</div>
+  <h4>混合多云环境</h4>
+  <p>混合云结合并统一了公有云、私有云和本地数据中心基础设施，从而创建单一、灵活、成本最优的 IT 基础设施。</p>
+  <p>如今，混合云已与来自多家云供应商的多云、公有云服务合并，从而创建了混合多云环境。</p>
+  <p>混合多云方法可以提高灵活性，减少组织对单一供应商的依赖，从而防止供应商锁定。由于 Kubernetes 为云原生开发奠定了基础，因此它是混合多云的关键。</p>
+  <h4>大规模应用</h4>
+  <p>Kubernetes 支持通过自动扩展来大规模部署云应用。此过程允许应用程序扩展或缩减规模，自动适应需求变化，速度快、效率高且停机时间短。</p>
+  <p>部署的弹性可扩展性意味着可以根据用户流量的变化（例如零售网站上的限时抢购）添加或删除资源。</p>
 
-<div style="display: flex; align-items: center; margin-bottom: 20px;">
-  <svg width="60" height="60" viewBox="0 0 100 100" style="margin-right: 20px;">
-    <g transform="translate(50,50)">
-      <path d="M-20,-10 A25,25 0 0,1 20,-10" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/>
-      <path d="M20,10 A25,25 0 0,1 -20,10" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"/>
-      <path d="M-20,-10 L-25,-15 L-15,-15 L-20,-10" fill="#000"/>
-      <path d="M20,10 L25,15 L15,15 L20,10" fill="#000"/>
-    </g>
-    <circle cx="50" cy="50" r="2" fill="#000"/>
-  </svg>
-  <div>
-    <h4>DevOps 实践</h4>
-    <p>自动化是 DevOps 的核心，它通过整合和自动化软件开发和 IT 运维团队的工作来提高质量和交付的速度。通过自动化应用程序的配置和部署，帮助 DevOps 团队快速构建和更新应用程序。</p>
-  </div>
-</div>
+  <h4>应用程序现代化</h4>
+  <p>Kubernetes 提供了支持应用程序现代化所需的现代云平台，将单体式遗留应用程序迁移和转换为基于微服务架构的云应用程序。</p>
+  
+  <h4>DevOps 实践</h4>
+  <p>自动化是 DevOps 的核心，它通过整合和自动化软件开发和 IT 运维团队的工作来提高质量和交付的速度。通过自动化应用程序的配置和部署，帮助 DevOps 团队快速构建和更新应用程序。</p>
 
-<div style="display: flex; align-items: center; margin-bottom: 20px;">
-  <svg width="60" height="60" viewBox="0 0 100 100" style="margin-right: 20px;">
-    <g transform="translate(50,50)">
-      <circle cx="0" cy="-20" r="4" fill="#fff" stroke="#000" stroke-width="2"/>
-      <circle cx="-20" cy="0" r="4" fill="#fff" stroke="#000" stroke-width="2"/>
-      <circle cx="20" cy="0" r="4" fill="#fff" stroke="#000" stroke-width="2"/>
-      <circle cx="0" cy="20" r="4" fill="#fff" stroke="#000" stroke-width="2"/>
-      <path d="M0,-20 L-20,0 M0,-20 L20,0 M-20,0 L0,20 M20,0 L0,20" 
-            stroke="#000" stroke-width="1.5" 
-            stroke-dasharray="3,2"/>
-      <circle cx="0" cy="-20" r="2" fill="#000"/>
-      <circle cx="20" cy="0" r="2" fill="#000"/>
-    </g>
-  </svg>
-  <div>
-    <h4>人工智能 (AI) 和机器学习 (ML)</h4>
-    <p>支持 AI 的 ML 模型和大型语言模型 (LLM) 包含一些组件，如果单独管理这些组件会非常复杂。因此通过跨云平台进行集成，部署可以更好地提供训练、测试和部署这些模型的能力和灵活性。</p>
-  </div>
-</div>
+
+
+  <h4>人工智能 (AI) 和机器学习 (ML)</h4>
+  <p>支持 AI 的 ML 模型和大型语言模型 (LLM) 包含一些组件，如果单独管理这些组件会非常复杂。因此通过跨云平台进行集成，部署可以更好地提供训练、测试和部署这些模型的能力和灵活性。</p>
+
