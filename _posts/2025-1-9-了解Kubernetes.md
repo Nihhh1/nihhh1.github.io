@@ -1,11 +1,12 @@
 ---
 layout: post
-title: 关于对接JSAPI微信支付
+title: 了解Kubernetes
 date: 2025-1-9
 author: ni
 catalog: true
 tags:
   - Kubernetes
+  - 云原生
 ---
 
 ## 背景：容器、Docker 和 Kubernetes
