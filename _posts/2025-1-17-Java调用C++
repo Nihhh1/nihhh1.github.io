@@ -1,0 +1,170 @@
+---
+layout: post
+title: Java调用C++
+date: 2025-1-17
+author: ni
+catalog: true
+tags:
+  - Native
+---
+
+## 前言
+
+- 在对小区提供硬件时，各类硬件设备支持的协议不同，需要实现不同的方法对硬件进行控制
+- 大部分硬件使用MQTT就可以解决
+- 视频监控可以使用SIP+ZLM推流实现
+- 但是海康提供了自己的SDK，需要对海康SDK进行集成
+- 由于大多数硬件，视频推流服务器都是使用C++进行编程速度更快
+- 所以我们需要使用Native来调用C++
+
+## 海康部分代码
+
+```java
+private static boolean CreateSDKInstance() {
+    if (hCEhomeCMS == null) {
+        synchronized (HCISUPCMS.class) {
+            String strDllPath = "";
+            try {
+                //System.setProperty("jna.debug_load", "true");
+                if (CommonMethod.isWindows())
+                    //win系统加载库路径(路径不要带中文)
+                    strDllPath = System.getProperty("user.dir") + "\\lib\\HCISUPCMS.dll";
+                else
+                    //Linux系统加载库路径(路径不要带中文)
+                    strDllPath = LibPathUtils.defaultPath()+"/libHCISUPCMS.so";
+
+                hCEhomeCMS = (HCISUPCMS) Native.loadLibrary(strDllPath, HCISUPCMS.class);
+            } catch (Exception ex) {
+                logger.info("loadLibrary: " + strDllPath + " Error: " + ex.getMessage());
+                return false;
+            }
+        }
+    }
+    return true;
+}
+```
+
+- 这里便是创建海康SDK的代码，可以看到在获取路径后，通过Native.loadLibrary加载以便后续使用
+- 后续操作不过多介绍，无非一些配置调用
+- 下面来看看如何使用Native来调用C++
+
+## Java调用C++
+
+在Java调用C++中提供了两种方法一个是JNI一个是JNA，接下来看看两种方式各自实现再进行比较
+
+#### JNA实现
+
+- 1、添加依赖
+
+  ```java
+  <dependency>
+      <groupId>net.java.dev.jna</groupId>
+      <artifactId>jna</artifactId>
+      <version>5.7.0</version>
+  </dependency>
+  ```
+
+  
+
+- 2、创建接口继承Library
+
+  <img src="https://nihhh1-blog.oss-cn-beijing.aliyuncs.com/my-blog/JNA%26JNI/Snipaste_2025-01-17_14-11-08.png" style="zoom:80%;" />
+
+- 3、创建一个实现类（先不运行）
+
+  <img src="https://nihhh1-blog.oss-cn-beijing.aliyuncs.com/my-blog/JNA%26JNI/Snipaste_2025-01-17_14-15-26.png" style="zoom:80%;" />
+
+- 4、创建C++应用程序，新建一个cpp文件，修改其头文件
+
+  <img src="https://nihhh1-blog.oss-cn-beijing.aliyuncs.com/my-blog/JNA%26JNI/Snipaste_2025-01-20_17-12-56.png" style="zoom:150%;" />
+
+- 5、cpp文件引入头文件并实现方法
+
+  ![](https://nihhh1-blog.oss-cn-beijing.aliyuncs.com/my-blog/JNA%26JNI/Snipaste_2025-01-17_14-11-08.png)
+
+- 6、 生成dll文件
+
+  新建的动态链接库（DLL）直接运行就行，把.dll文件放到JAVA编写的对应路径即可
+
+- **7、报错！！！**
+
+  ![](https://nihhh1-blog.oss-cn-beijing.aliyuncs.com/my-blog/JNA%26JNI/Snipaste_2025-01-20_15-03-08.png)
+
+  通过翻阅资料，发现`JNA`还需要一些环境才能获取到，博客：https://blog.csdn.net/qq_36533690/article/details/122709535
+
+  解决方法一、
+
+  - 参考Github上的JNA的文档[Setting up a Windows Development Environment](https://github.com/java-native-access/jna/blob/master/www/WindowsDevelopmentEnvironment.md)，Prerequisites中有4点，每一点都涉及到一个需要安装的环境或者程序等。
+
+  解决方法二、
+
+  - 直接安装[Visual Studio](https://visualstudio.microsoft.com/zh-hans/vs/)，勾选“使用C++的桌面开发”和“通用Windows平台开发”，然后安装，安装好后就可以了。（猜测：这两个模块中包含JNA所需要的环境）
+
+  **OK，在下载完Visual Studio后，使用它进行生成dll在进行测试发现可以加载文件了**
+
+  ![](https://nihhh1-blog.oss-cn-beijing.aliyuncs.com/my-blog/JNA%26JNI/Snipaste_2025-01-20_17-27-15.png)
+
+  **WTF！传入结构体的值明明就1和2为什么变成了这个数，每次调用还都不同**
+
+  **在Java中定义的结构体和C++中分配的字节不同问题，会导致偏移，导致数据不统一**
+
+  **通过实现Structure.ByValue，或者强制指定结构体字节对齐，就可以解决**
+
+  ![](https://nihhh1-blog.oss-cn-beijing.aliyuncs.com/my-blog/JNA%26JNI/Snipaste_2025-01-20_17-34-44.png)
+
+  
+
+#### JNI调用
+
+- 1、java创建一个测试类
+
+  ![](https://nihhh1-blog.oss-cn-beijing.aliyuncs.com/my-blog/JNA%26JNI/Snipaste_2025-01-21_10-24-01.png)
+
+- 2、cmd进入对应的文件夹路径并进行编译，编译时要把中文注释删了
+
+  - 输入 javac JNITest.java 生成一个.class字节码文件
+
+  - 再输入 javac -h ./ JNITest.java 生成一个.h头文件
+
+    ![](https://nihhh1-blog.oss-cn-beijing.aliyuncs.com/my-blog/JNA%26JNI/Snipaste_2025-01-20_17-46-42.png)
+
+- 3、打开VS创建C++应用程序，新建一个cpp文件，将上一步生成的.h头文件复制到项目目录下，并手动添加 
+
+  ![](https://nihhh1-blog.oss-cn-beijing.aliyuncs.com/my-blog/JNA%26JNI/Snipaste_2025-01-21_10-24-27.png)
+
+- 4、以同样的方式添加jni.h和jni_md.h（在jdk中查找和复制）
+
+  ![](https://nihhh1-blog.oss-cn-beijing.aliyuncs.com/my-blog/JNA%26JNI/Snipaste_2025-01-20_17-50-52.png)
+
+  ![](https://nihhh1-blog.oss-cn-beijing.aliyuncs.com/my-blog/JNA%26JNI/Snipaste_2025-01-21_10-24-35.png)
+
+- 5、编写cpp文件，引入头文件实现对应方法
+
+  ![](https://nihhh1-blog.oss-cn-beijing.aliyuncs.com/my-blog/JNA%26JNI/Snipaste_2025-01-21_10-24-15.png)
+
+- 6、生成dll文件
+
+  - **又报错！！！**
+  - 通过错误信息发现，导入的头文件并又没加载到项目上，需要通过手动新建头文件把代码复制进去，这样依赖就记载进来了
+  - 然后修改导入的头文件名
+
+- 7、测试
+
+  ![image-20250121104158573](C:\Users\19078\AppData\Roaming\Typora\typora-user-images\image-20250121104158573.png)
+
+## 区别
+
+- JNI允许Java代码和其他语言（尤其C/C++）写的代码进行交互，只要遵守调用约定即可。首先看下JNI调用C/C++的过程，注意写程序时自下而上，调用时自上而下。步骤非常的多，很麻烦。
+- JNA框架解决了既需要编写java代码，又要编写C语言的代理方法及很多数据类型的转换的问题，它提供一组Java工具类用于在运行期动态访问系统本地共享类库而不需要编写任何Native/JNI代码。开发人员只要在一个java接口中描述目标native library的函数与结构，JNA将自动实现Java接口到native function的映射，大大降低了Java调用本体共享库的开发难度。
+- 总得来说，JNA**调用开发更简单**，但是由于通过映射肯定会带来**性能的损失**
+
+
+
+
+
+​		
+
+
+
+
+
