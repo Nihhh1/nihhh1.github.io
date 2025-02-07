@@ -2,7 +2,7 @@
 
 layout: post
 title: 关于DeepSeek和OpenAi
-date: 2025-1-29
+date: 2025-2-1
 author: ni
 catalog: true
 tags:
