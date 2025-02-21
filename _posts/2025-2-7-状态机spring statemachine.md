@@ -118,16 +118,19 @@ CREATE TABLE `tb_order` (
 **1）引入依赖**
 
 
-        <dependency>
-            <groupId>org.springframework.statemachine</groupId>
-            <artifactId>spring-statemachine-redis</artifactId>
-            <version>1.2.9.RELEASE</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.springframework.statemachine</groupId>
-            <artifactId>spring-statemachine-starter</artifactId>
-            <version>2.0.1.RELEASE</version>
+```java
+    <dependency>
+        <groupId>org.springframework.statemachine</groupId>
+        <artifactId>spring-statemachine-redis</artifactId>
+        <version>1.2.9.RELEASE</version>
+    </dependency>
+    
+    <dependency>
+        <groupId>org.springframework.statemachine</groupId>
+        <artifactId>spring-statemachine-starter</artifactId>
+        <version>2.0.1.RELEASE</version>
+    <dependency>
+```
 
 **2）定义状态机状态和事件**
 
