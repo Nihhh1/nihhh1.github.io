@@ -42,7 +42,12 @@ header-img: "img/library-bg.jpg"
             <div class="library-list-container">
                 <div class="library-list">
                     {% assign files = site.static_files | where_exp: "file", "file.path contains '/files/'" %}
-                    {% assign filtered_files = files | where_exp: "file", "file.path contains '.exe' == false" %}
+                    {% assign filtered_files = '' | split: '' %}
+                    {% for file in files %}
+                    {% unless file.path contains '.exe' %}
+                    {% assign filtered_files = filtered_files | push: file %}
+                    {% endunless %}
+                    {% endfor %}
                     {% if filtered_files.size > 0 %}
                     {% for file in filtered_files %}
                     {% assign file_name = file.path | split: '/' | last %}
