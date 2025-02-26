@@ -5,10 +5,28 @@ description: "我的文件收藏"
 header-img: "img/library-bg.jpg"
 ---
 
+<!-- 移除右侧边栏的样式 -->
+<style>
+    .side-catalog {
+        display: none !important;
+    }
+
+    .sidebar-container {
+        display: none !important;
+    }
+
+    @media (min-width: 992px) {
+        .post-container {
+            padding-right: 5%;
+            padding-left: 5%;
+        }
+    }
+</style>
+
 <!-- 文件库主内容 -->
 <div class="container library-content">
     <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="col-lg-12 col-md-12">
             <!-- 文件分类标签 -->
             <div class="library-categories">
                 <span class="library-category active">全部</span>
@@ -28,11 +46,18 @@ header-img: "img/library-bg.jpg"
 
 <!-- 文件库样式 -->
 <style>
+    .library-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
     .library-categories {
         margin: 20px 0 30px;
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
+        justify-content: center;
     }
 
     .library-category {
@@ -55,13 +80,16 @@ header-img: "img/library-bg.jpg"
 
     .library-list {
         min-height: 200px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+        padding: 20px 0;
     }
 
     .library-file-item {
         display: flex;
         align-items: center;
         padding: 15px;
-        margin-bottom: 15px;
         background: #fff;
         border-radius: 8px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -87,6 +115,7 @@ header-img: "img/library-bg.jpg"
         font-size: 16px;
         font-weight: 500;
         margin-bottom: 5px;
+        word-break: break-all;
     }
 
     .library-file-meta {
@@ -109,12 +138,40 @@ header-img: "img/library-bg.jpg"
         display: flex;
         align-items: center;
         gap: 5px;
+        background-color: #337ab7;
+        color: white !important;
+        text-decoration: none !important;
+    }
+
+    .library-file-action:hover {
+        background-color: #286090;
     }
 
     .library-empty {
         text-align: center;
         padding: 40px;
         color: #666;
+        grid-column: 1 / -1;
+    }
+
+    /* 响应式布局优化 */
+    @media (max-width: 768px) {
+        .library-content {
+            padding: 0 10px;
+        }
+
+        .library-list {
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .library-file-item {
+            padding: 12px;
+        }
+
+        .library-categories {
+            padding: 0 10px;
+        }
     }
 </style>
 
