@@ -154,6 +154,18 @@ header-img: "img/library-bg.jpg"
         grid-column: 1 / -1;
     }
 
+    .library-empty i {
+        font-size: 48px;
+        color: #d0d0d0;
+        margin-bottom: 15px;
+    }
+
+    .library-empty p {
+        font-size: 14px;
+        color: #999;
+        margin: 0;
+    }
+
     /* 响应式布局优化 */
     @media (max-width: 768px) {
         .library-content {
@@ -178,9 +190,20 @@ header-img: "img/library-bg.jpg"
 <!-- 文件库脚本 -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        // 显示初始空状态
+        showEmptyState();
         // 初始化文件库
         initLibrary();
     });
+
+    function showEmptyState() {
+        const libraryList = document.querySelector('.library-list');
+        libraryList.innerHTML = `
+            <div class="library-empty">
+                <i class="fa fa-folder-open-o"></i>
+            </div>
+        `;
+    }
 
     function initLibrary() {
         // 绑定分类点击事件
@@ -195,9 +218,6 @@ header-img: "img/library-bg.jpg"
                 loadCategoryFiles(this.textContent);
             });
         });
-
-        // 加载初始文件列表（全部）
-        loadCategoryFiles('全部');
     }
 
     function loadCategoryFiles(category) {
@@ -222,12 +242,7 @@ header-img: "img/library-bg.jpg"
                 });
 
                 if (files.length === 0) {
-                    libraryList.innerHTML = `
-                        <div class="library-empty">
-                            <i class="fa fa-folder-open-o"></i>
-                            <p>该分类下暂无文件</p>
-                        </div>
-                    `;
+                    showEmptyState();
                     return;
                 }
 
@@ -240,12 +255,7 @@ header-img: "img/library-bg.jpg"
             })
             .catch(error => {
                 console.error('Error loading files:', error);
-                libraryList.innerHTML = `
-                    <div class="library-empty">
-                        <i class="fa fa-exclamation-circle"></i>
-                        <p>加载文件列表失败</p>
-                    </div>
-                `;
+                showEmptyState();
             });
     }
 
