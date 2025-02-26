@@ -94,7 +94,7 @@ header-img: "img/library-bg.jpg"
     .library-content {
         max-width: 1200px;
         margin: 0 auto;
-        padding: 20px;
+        padding: 0;
         background-color: #f8f9fa;
         min-height: calc(100vh - 300px);
         box-sizing: border-box;
@@ -105,25 +105,26 @@ header-img: "img/library-bg.jpg"
         padding: 20px 0;
         border-bottom: 1px solid #eee;
         margin-bottom: 30px;
+        width: 100%;
     }
 
     .library-categories {
-        max-width: 800px;
+        max-width: 1160px;
         margin: 0 auto;
         display: flex;
         flex-wrap: wrap;
-        gap: 15px;
-        justify-content: center;
+        gap: 10px;
+        justify-content: flex-start;
         padding: 0 20px;
     }
 
     .library-category {
-        padding: 8px 25px;
+        padding: 8px 20px;
         border-radius: 20px;
         background-color: #f0f0f0;
         cursor: pointer;
         transition: all 0.3s;
-        font-size: 15px;
+        font-size: 14px;
         user-select: none;
     }
 
@@ -157,6 +158,7 @@ header-img: "img/library-bg.jpg"
         border-radius: 10px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         transition: all 0.3s ease;
+        height: 72px;
     }
 
     .library-file-item:hover {
@@ -196,6 +198,8 @@ header-img: "img/library-bg.jpg"
 
     .library-file-actions {
         flex-shrink: 0;
+        width: 85px;
+        text-align: right;
     }
 
     .library-file-action {
@@ -247,7 +251,7 @@ header-img: "img/library-bg.jpg"
 
     @media (max-width: 768px) {
         .library-content {
-            padding: 10px;
+            padding: 0;
         }
 
         .library-list-container {
@@ -256,6 +260,7 @@ header-img: "img/library-bg.jpg"
 
         .library-categories {
             padding: 0 10px;
+            justify-content: center;
         }
 
         .library-category {
@@ -265,20 +270,23 @@ header-img: "img/library-bg.jpg"
 
         .library-list {
             grid-template-columns: 1fr;
+            gap: 15px;
+            padding: 15px 0;
         }
 
         .library-file-item {
-            padding: 15px;
+            padding: 12px;
+            height: 64px;
         }
 
         .library-file-icon {
-            font-size: 24px;
-            margin-right: 15px;
+            font-size: 20px;
+            margin-right: 12px;
         }
 
         .library-file-action {
-            padding: 6px 15px;
-            font-size: 13px;
+            padding: 5px 10px;
+            font-size: 12px;
         }
     }
 </style>
