@@ -98,6 +98,9 @@ header-img: "img/library-bg.jpg"
         background-color: #f8f9fa;
         min-height: calc(100vh - 300px);
         box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .library-categories-container {
@@ -109,13 +112,13 @@ header-img: "img/library-bg.jpg"
     }
 
     .library-categories {
-        max-width: 1160px;
+        width: 1000px;
         margin: 0 auto;
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
         justify-content: flex-start;
-        padding: 0 20px;
+        padding: 0;
     }
 
     .library-category {
@@ -138,9 +141,9 @@ header-img: "img/library-bg.jpg"
     }
 
     .library-list-container {
-        max-width: 1160px;
+        width: 1000px;
         margin: 0 auto;
-        padding: 0 20px;
+        padding: 0;
     }
 
     .library-list {
@@ -243,6 +246,15 @@ header-img: "img/library-bg.jpg"
     }
 
     /* 响应式布局优化 */
+    @media (max-width: 1100px) {
+
+        .library-categories,
+        .library-list-container {
+            width: 90%;
+            padding: 0;
+        }
+    }
+
     @media (max-width: 992px) {
         .library-list {
             grid-template-columns: repeat(2, 1fr);
@@ -254,18 +266,8 @@ header-img: "img/library-bg.jpg"
             padding: 0;
         }
 
-        .library-list-container {
-            padding: 0 10px;
-        }
-
         .library-categories {
-            padding: 0 10px;
             justify-content: center;
-        }
-
-        .library-category {
-            padding: 6px 20px;
-            font-size: 14px;
         }
 
         .library-list {
