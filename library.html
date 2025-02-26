@@ -24,7 +24,7 @@ header-img: "img/library-bg.jpg"
 </style>
 
 <!-- 文件库主内容 -->
-<div class="container-fluid library-content">
+<div class="container library-content">
     <div class="row justify-content-center">
         <div class="col-12">
             <!-- 文件分类标签 -->
@@ -51,7 +51,7 @@ header-img: "img/library-bg.jpg"
 <!-- 文件库样式 -->
 <style>
     .library-content {
-        max-width: 100%;
+        max-width: 1200px;
         margin: 0 auto;
         padding: 0;
         background-color: #f8f9fa;
@@ -76,15 +76,34 @@ header-img: "img/library-bg.jpg"
         padding: 0 20px;
     }
 
+    .library-category {
+        padding: 8px 25px;
+        border-radius: 20px;
+        background-color: #f0f0f0;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: 15px;
+        user-select: none;
+    }
+
+    .library-category:hover {
+        background-color: #e0e0e0;
+    }
+
+    .library-category.active {
+        background-color: #337ab7;
+        color: white;
+    }
+
     .library-list-container {
-        max-width: 1200px;
+        width: 100%;
         margin: 0 auto;
-        padding: 0 20px;
+        padding: 0 15px;
     }
 
     .library-list {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         gap: 20px;
         padding: 20px 0;
         min-height: 300px;
@@ -93,55 +112,60 @@ header-img: "img/library-bg.jpg"
     .library-file-item {
         display: flex;
         align-items: center;
-        padding: 15px;
+        padding: 20px;
         background: #fff;
-        border-radius: 8px;
+        border-radius: 10px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         transition: all 0.3s ease;
     }
 
     .library-file-item:hover {
         transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
 
     .library-file-icon {
-        font-size: 24px;
-        margin-right: 15px;
+        font-size: 28px;
+        margin-right: 20px;
         color: #337ab7;
+        width: 40px;
+        text-align: center;
     }
 
     .library-file-info {
         flex-grow: 1;
+        min-width: 0;
     }
 
     .library-file-name {
         font-size: 16px;
         font-weight: 500;
-        margin-bottom: 5px;
-        word-break: break-all;
+        margin-bottom: 8px;
+        color: #333;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     .library-file-meta {
-        font-size: 12px;
+        font-size: 13px;
         color: #666;
     }
 
     .library-file-actions {
-        display: flex;
-        gap: 10px;
+        margin-left: 15px;
     }
 
     .library-file-action {
-        padding: 8px 15px;
+        padding: 8px 20px;
         border: none;
-        border-radius: 4px;
+        border-radius: 6px;
         cursor: pointer;
         transition: all 0.2s;
         font-size: 14px;
         display: flex;
         align-items: center;
-        gap: 5px;
+        gap: 8px;
         background-color: #337ab7;
         color: white !important;
         text-decoration: none !important;
@@ -149,6 +173,7 @@ header-img: "img/library-bg.jpg"
 
     .library-file-action:hover {
         background-color: #286090;
+        transform: translateY(-1px);
     }
 
     .library-empty {
@@ -157,7 +182,7 @@ header-img: "img/library-bg.jpg"
         color: #666;
         grid-column: 1 / -1;
         background-color: white;
-        border-radius: 8px;
+        border-radius: 10px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         margin: 20px auto;
         width: 100%;
@@ -165,31 +190,102 @@ header-img: "img/library-bg.jpg"
     }
 
     .library-empty i {
-        font-size: 60px;
+        font-size: 64px;
         color: #d0d0d0;
+        margin-bottom: 20px;
+        display: block;
     }
 
     /* 响应式布局优化 */
     @media (max-width: 768px) {
-        .library-categories {
-            padding: 0 15px;
+        .library-content {
+            padding: 0 10px;
         }
 
-        .library-list {
-            grid-template-columns: 1fr;
-            gap: 15px;
-            padding: 0 15px 30px;
+        .library-categories {
+            padding: 0 10px;
         }
 
         .library-category {
             padding: 6px 20px;
             font-size: 14px;
         }
+
+        .library-list {
+            grid-template-columns: 1fr;
+            gap: 15px;
+            padding: 15px 0;
+        }
+
+        .library-file-item {
+            padding: 15px;
+        }
+
+        .library-file-icon {
+            font-size: 24px;
+            margin-right: 15px;
+        }
+
+        .library-file-action {
+            padding: 6px 15px;
+            font-size: 13px;
+        }
     }
 </style>
 
 <!-- 文件库脚本 -->
 <script>
+    // 预定义文件列表
+    const filesList = {
+        '文档': [
+            { name: '快排.cpp', type: 'cpp', size: '583B', date: '2023-07-16' },
+            { name: '二分查找.cpp', type: 'cpp', size: '437B', date: '2023-12-11' },
+            { name: '归并排序.cpp', type: 'cpp', size: '603B', date: '2023-10-05' },
+            { name: '链式前向星.cpp', type: 'cpp', size: '844B', date: '2023-06-13' },
+            { name: 'dijkstra.cpp', type: 'cpp', size: '1.2KB', date: '2023-07-05' },
+            { name: '快读快写.cpp', type: 'cpp', size: '475B', date: '2023-08-07' },
+            { name: '组合数.cpp', type: 'cpp', size: '1.2KB', date: '2023-08-02' },
+            { name: '快速幂求逆元.cpp', type: 'cpp', size: '441B', date: '2023-07-26' },
+            { name: '快速幂.cpp', type: 'cpp', size: '335B', date: '2023-07-26' },
+            { name: '数位dp(求区间内0~9各个出现次数).cpp', type: 'cpp', size: '979B', date: '2023-07-19' },
+            { name: '最长上升子序列（nlogn）.cpp', type: 'cpp', size: '522B', date: '2023-07-03' },
+            { name: '归并求逆序对.cpp', type: 'cpp', size: '589B', date: '2023-07-12' },
+            { name: '树形DP（没有上司的舞会）.cpp', type: 'cpp', size: '869B', date: '2023-07-11' },
+            { name: '多重背包二进制优化.cpp', type: 'cpp', size: '646B', date: '2023-07-08' },
+            { name: '离散化求区间和.cpp', type: 'cpp', size: '1.9KB', date: '2023-07-03' },
+            { name: '哈希字符串.cpp', type: 'cpp', size: '662B', date: '2023-07-03' },
+            { name: '哈希表（模拟散列表 开放寻址）.cpp', type: 'cpp', size: '829B', date: '2023-07-02' },
+            { name: 'dijstra堆优化.cpp', type: 'cpp', size: '2.1KB', date: '2023-07-02' },
+            { name: '哈希表（模拟散列表 拉链式）.cpp', type: 'cpp', size: '745B', date: '2023-07-02' },
+            { name: '并查集(连通块中点的数量).cpp', type: 'cpp', size: '885B', date: '2023-06-30' },
+            { name: '并查集(食物链).cpp', type: 'cpp', size: '776B', date: '2023-06-30' },
+            { name: 'dfs.cpp', type: 'cpp', size: '824B', date: '2023-06-24' },
+            { name: 'BFS.cpp', type: 'cpp', size: '1.1KB', date: '2023-06-23' },
+            { name: '模拟堆.cpp', type: 'cpp', size: '1.2KB', date: '2023-06-14' },
+            { name: '线段树.cpp', type: 'cpp', size: '1.6KB', date: '2023-06-13' },
+            { name: 'Trie字符串统计.cpp', type: 'cpp', size: '731B', date: '2023-05-26' },
+            { name: '最小生成树(Kruskal).cpp', type: 'cpp', size: '1.2KB', date: '2023-05-21' },
+            { name: 'floyd.cpp', type: 'cpp', size: '866B', date: '2023-05-21' },
+            { name: '最小生成树(Prim).cpp', type: 'cpp', size: '713B', date: '2023-04-24' },
+            { name: '最大公约数.cpp', type: 'cpp', size: '334B', date: '2023-04-23' },
+            { name: '不重复的连续子字符串（双指针）.cpp', type: 'cpp', size: '423B', date: '2023-04-21' },
+            { name: '差分矩阵.cpp', type: 'cpp', size: '845B', date: '2023-04-21' },
+            { name: '高精度除法.cpp', type: 'cpp', size: '695B', date: '2023-04-21' },
+            { name: '高精度乘法.cpp', type: 'cpp', size: '607B', date: '2023-04-21' },
+            { name: '高精度减法.cpp', type: 'cpp', size: '945B', date: '2023-04-20' },
+            { name: '高精度加法.cpp', type: 'cpp', size: '647B', date: '2023-04-20' },
+            { name: '二分查找k的开头结尾.cpp', type: 'cpp', size: '629B', date: '2023-04-19' },
+            { name: '用快排找排序后第k个数(复杂度2n).cpp', type: 'cpp', size: '469B', date: '2023-04-18' },
+            { name: '并查集（家族）.cpp', type: 'cpp', size: '486B', date: '2023-03-30' },
+            { name: 'stl.cpp', type: 'cpp', size: '433B', date: '2023-02-11' },
+            { name: '链表.cpp', type: 'cpp', size: '981B', date: '2023-01-20' },
+            { name: '结构体.cpp', type: 'cpp', size: '1.1KB', date: '2022-11-24' }
+        ],
+        '图片': [],
+        '视频': [],
+        '其他': []
+    };
+
     document.addEventListener('DOMContentLoaded', function () {
         // 初始化文件库
         initLibrary();
@@ -202,6 +298,7 @@ header-img: "img/library-bg.jpg"
         libraryList.innerHTML = `
             <div class="library-empty">
                 <i class="fa fa-folder-open-o"></i>
+                <p>暂无文件</p>
             </div>
         `;
     }
@@ -224,52 +321,39 @@ header-img: "img/library-bg.jpg"
     function loadCategoryFiles(category) {
         const libraryList = document.querySelector('.library-list');
 
-        // 根据分类获取文件夹路径
-        let folderPath = category === '全部' ? '/files' : `/files/${category}`;
-
-        // 发送请求获取文件列表
-        fetch(folderPath)
-            .then(response => {
-                if (!response.ok) throw new Error('Failed to load files');
-                return response.text();
-            })
-            .then(html => {
-                // 解析返回的HTML中的文件列表
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                const files = Array.from(doc.querySelectorAll('a')).filter(a => {
-                    const href = a.getAttribute('href');
-                    return href && !href.endsWith('/') && href !== '../';
-                });
-
-                if (files.length === 0) {
-                    showEmptyState();
-                    return;
-                }
-
-                // 渲染文件列表
-                libraryList.innerHTML = files.map(file => {
-                    const fileName = file.textContent;
-                    const fileType = fileName.split('.').pop().toLowerCase();
-                    const filePath = folderPath + '/' + fileName;
-                    return createFileItemHTML(fileName, fileType, filePath);
-                }).join('');
-            })
-            .catch(error => {
-                console.error('Error loading files:', error);
-                showEmptyState();
+        let files = [];
+        if (category === '全部') {
+            // 合并所有分类的文件
+            Object.values(filesList).forEach(categoryFiles => {
+                files = files.concat(categoryFiles);
             });
+        } else {
+            files = filesList[category] || [];
+        }
+
+        if (files.length === 0) {
+            showEmptyState();
+            return;
+        }
+
+        // 渲染文件列表
+        libraryList.innerHTML = files.map(file => createFileItemHTML(file)).join('');
     }
 
-    function createFileItemHTML(fileName, fileType, filePath) {
-        const iconClass = getFileIcon(fileType);
+    function createFileItemHTML(file) {
+        const iconClass = getFileIcon(file.type);
+        const filePath = `/files/${file.category || '文档'}/${file.name}`;
         return `
             <div class="library-file-item">
                 <div class="library-file-icon">
                     <i class="fa ${iconClass}"></i>
                 </div>
                 <div class="library-file-info">
-                    <div class="library-file-name">${fileName}</div>
+                    <div class="library-file-name">${file.name}</div>
+                    <div class="library-file-meta">
+                        <span>${file.size}</span> | 
+                        <span>上传于 ${file.date}</span>
+                    </div>
                 </div>
                 <div class="library-file-actions">
                     <a href="${filePath}" class="library-file-action" download>
@@ -296,9 +380,10 @@ header-img: "img/library-bg.jpg"
             'zip': 'fa-file-archive-o',
             'rar': 'fa-file-archive-o',
             'txt': 'fa-file-text-o',
-            'cpp': 'fa-file-text-o'
+            'cpp': 'fa-file-code-o',
+            'exe': 'fa-file-o'
         };
 
-        return iconMap[fileType] || 'fa-file-o';
+        return iconMap[fileType.toLowerCase()] || 'fa-file-o';
     }
 </script>
