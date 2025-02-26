@@ -54,7 +54,8 @@ header-img: "img/library-bg.jpg"
                     {% assign file_path = file.path %}
                     {% assign file_ext = file_name | split: '.' | last | downcase %}
                     {% assign file_category = file.path | split: '/' | slice: 2 | first %}
-                    {% assign file_size = file.size | divided_by: 1024.0 %}
+                    {% assign file_size_bytes = file.path | file_size %}
+                    {% assign file_size_kb = file_size_bytes | divided_by: 1024.0 %}
                     <div class="library-file-item" data-category="{{ file_category }}">
                         <div class="library-file-icon">
                             <i class="fa {% case file_ext %}
@@ -70,269 +71,279 @@ header-img: "img/library-bg.jpg"
                                     {% endcase %}"></i>
                         </div>
                         <div class="library-file-info">
-                            <div class="library-file-name">{{ file_name }}</div>
+                            <div class="library-file-name" title="{{ file_name }}">{{ file_name }}</div>
                             <div class="library-file-meta">
+                                {% assign file_stat = file.path | file_stat %}
+                                {% assign file_size = file_stat.size | divided_by: 1024.0 %}
                                 {% if file_size < 1024 %} {{ file_size | round: 1 }}KB {% else %} {{ file_size |
-                                    divided_by: 1024.0 | round: 1 }}MB {% endif %} | 上传于 {{ file.modified_time |
+                                    divided_by: 1024.0 | round: 1 }}MB {% endif %} | 上传于 {{ file_stat.mtime |
                                     date: "%Y-%m-%d" }} </div>
                             </div>
                             <div class="library-file-actions">
                                 <a href="{{ file_path | relative_url }}" class="library-file-action" download>
-                                    <i class="fa fa-download"></i> 下载
+                                    <i class="fa fa-download"></i>
+                                    <span>下载</span>
                                 </a>
                             </div>
                         </div>
-                        {% endfor %}
-                        {% else %}
-                        <div class="library-empty">
-                            <i class="fa fa-folder-open-o"></i>
-                            <p>暂无文件</p>
-                        </div>
-                        {% endif %}
                     </div>
+                    {% endfor %}
+                    {% else %}
+                    <div class="library-empty">
+                        <i class="fa fa-folder-open-o"></i>
+                        <p>暂无文件</p>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
-        </div>
 
-        <!-- 文件库样式 -->
-        <style>
-            .library-content {
-                max-width: 1200px;
-                margin: 0 auto;
-                padding: 0;
-                background-color: #f8f9fa;
-                min-height: calc(100vh - 300px);
-            }
-
-            .library-categories-container {
-                width: 100%;
-                background-color: white;
-                padding: 20px 0;
-                border-bottom: 1px solid #eee;
-                margin-bottom: 30px;
-            }
-
-            .library-categories {
-                max-width: 800px;
-                margin: 0 auto;
-                display: flex;
-                flex-wrap: wrap;
-                gap: 15px;
-                justify-content: center;
-                padding: 0 20px;
-            }
-
-            .library-category {
-                padding: 8px 25px;
-                border-radius: 20px;
-                background-color: #f0f0f0;
-                cursor: pointer;
-                transition: all 0.3s;
-                font-size: 15px;
-                user-select: none;
-            }
-
-            .library-category:hover {
-                background-color: #e0e0e0;
-            }
-
-            .library-category.active {
-                background-color: #337ab7;
-                color: white;
-            }
-
-            .library-list-container {
-                width: 100%;
-                margin: 0 auto;
-                padding: 0 15px;
-            }
-
-            .library-list {
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-                gap: 20px;
-                padding: 20px 0;
-                min-height: 300px;
-            }
-
-            .library-file-item {
-                display: flex;
-                align-items: center;
-                padding: 20px;
-                background: #fff;
-                border-radius: 10px;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                transition: all 0.3s ease;
-            }
-
-            .library-file-item:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            }
-
-            .library-file-icon {
-                font-size: 28px;
-                margin-right: 20px;
-                color: #337ab7;
-                width: 40px;
-                text-align: center;
-            }
-
-            .library-file-info {
-                flex-grow: 1;
-                min-width: 0;
-            }
-
-            .library-file-name {
-                font-size: 16px;
-                font-weight: 500;
-                color: #333;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                margin-bottom: 4px;
-            }
-
-            .library-file-meta {
-                font-size: 12px;
-                color: #666;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-            }
-
-            .library-file-actions {
-                margin-left: 15px;
-            }
-
-            .library-file-action {
-                padding: 8px 20px;
-                border: none;
-                border-radius: 6px;
-                cursor: pointer;
-                transition: all 0.2s;
-                font-size: 14px;
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                background-color: #337ab7;
-                color: white !important;
-                text-decoration: none !important;
-            }
-
-            .library-file-action:hover {
-                background-color: #286090;
-                transform: translateY(-1px);
-            }
-
-            .library-empty {
-                text-align: center;
-                padding: 60px 0;
-                color: #666;
-                grid-column: 1 / -1;
-                background-color: white;
-                border-radius: 10px;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                margin: 20px auto;
-                width: 100%;
-                max-width: 400px;
-            }
-
-            .library-empty i {
-                font-size: 64px;
-                color: #d0d0d0;
-                margin-bottom: 20px;
-                display: block;
-            }
-
-            /* 响应式布局优化 */
-            @media (max-width: 768px) {
+            <!-- 文件库样式 -->
+            <style>
                 .library-content {
-                    padding: 0 10px;
+                    max-width: 1200px;
+                    margin: 0 auto;
+                    padding: 0;
+                    background-color: #f8f9fa;
+                    min-height: calc(100vh - 300px);
+                }
+
+                .library-categories-container {
+                    width: 100%;
+                    background-color: white;
+                    padding: 20px 0;
+                    border-bottom: 1px solid #eee;
+                    margin-bottom: 30px;
                 }
 
                 .library-categories {
-                    padding: 0 10px;
+                    max-width: 800px;
+                    margin: 0 auto;
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 15px;
+                    justify-content: center;
+                    padding: 0 20px;
                 }
 
                 .library-category {
-                    padding: 6px 20px;
-                    font-size: 14px;
+                    padding: 8px 25px;
+                    border-radius: 20px;
+                    background-color: #f0f0f0;
+                    cursor: pointer;
+                    transition: all 0.3s;
+                    font-size: 15px;
+                    user-select: none;
+                }
+
+                .library-category:hover {
+                    background-color: #e0e0e0;
+                }
+
+                .library-category.active {
+                    background-color: #337ab7;
+                    color: white;
+                }
+
+                .library-list-container {
+                    width: 100%;
+                    margin: 0 auto;
+                    padding: 0 15px;
                 }
 
                 .library-list {
-                    grid-template-columns: 1fr;
-                    gap: 15px;
-                    padding: 15px 0;
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                    gap: 20px;
+                    padding: 20px 0;
+                    min-height: 300px;
                 }
 
                 .library-file-item {
-                    padding: 15px;
+                    display: flex;
+                    align-items: center;
+                    padding: 20px;
+                    background: #fff;
+                    border-radius: 10px;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                    transition: all 0.3s ease;
+                    min-width: 0;
+                }
+
+                .library-file-item:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
                 }
 
                 .library-file-icon {
-                    font-size: 24px;
+                    font-size: 28px;
+                    margin-right: 20px;
+                    color: #337ab7;
+                    width: 40px;
+                    flex-shrink: 0;
+                    text-align: center;
+                }
+
+                .library-file-info {
+                    flex: 1;
+                    min-width: 0;
                     margin-right: 15px;
                 }
 
-                .library-file-action {
-                    padding: 6px 15px;
-                    font-size: 13px;
+                .library-file-name {
+                    font-size: 16px;
+                    font-weight: 500;
+                    color: #333;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    margin-bottom: 4px;
                 }
-            }
-        </style>
 
-        <!-- 文件库脚本 -->
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                // 初始化文件库
-                initLibrary();
-            });
+                .library-file-meta {
+                    font-size: 12px;
+                    color: #666;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
 
-            function initLibrary() {
-                // 绑定分类点击事件
-                const categories = document.querySelectorAll('.library-category');
-                categories.forEach(category => {
-                    category.addEventListener('click', function () {
-                        // 移除其他分类的active类
-                        categories.forEach(c => c.classList.remove('active'));
-                        // 添加当前分类的active类
-                        this.classList.add('active');
-                        // 显示对应分类的文件
-                        filterFiles(this.textContent);
-                    });
-                });
-            }
+                .library-file-actions {
+                    flex-shrink: 0;
+                }
 
-            function filterFiles(category) {
-                const files = document.querySelectorAll('.library-file-item');
-                const empty = document.querySelector('.library-empty');
-                let hasVisibleFiles = false;
+                .library-file-action {
+                    padding: 8px 20px;
+                    border: none;
+                    border-radius: 6px;
+                    cursor: pointer;
+                    transition: all 0.2s;
+                    font-size: 14px;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 8px;
+                    background-color: #337ab7;
+                    color: white !important;
+                    text-decoration: none !important;
+                    white-space: nowrap;
+                }
 
-                files.forEach(file => {
-                    if (category === '全部' || file.dataset.category === category) {
-                        file.style.display = '';
-                        hasVisibleFiles = true;
-                    } else {
-                        file.style.display = 'none';
+                .library-file-action:hover {
+                    background-color: #286090;
+                    transform: translateY(-1px);
+                }
+
+                .library-file-action i {
+                    font-size: 16px;
+                }
+
+                .library-empty {
+                    text-align: center;
+                    padding: 60px 0;
+                    color: #666;
+                    grid-column: 1 / -1;
+                    background-color: white;
+                    border-radius: 10px;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                    margin: 20px auto;
+                    width: 100%;
+                    max-width: 400px;
+                }
+
+                .library-empty i {
+                    font-size: 64px;
+                    color: #d0d0d0;
+                    margin-bottom: 20px;
+                    display: block;
+                }
+
+                /* 响应式布局优化 */
+                @media (max-width: 768px) {
+                    .library-content {
+                        padding: 0 10px;
                     }
+
+                    .library-categories {
+                        padding: 0 10px;
+                    }
+
+                    .library-category {
+                        padding: 6px 20px;
+                        font-size: 14px;
+                    }
+
+                    .library-list {
+                        grid-template-columns: 1fr;
+                        gap: 15px;
+                        padding: 15px 0;
+                    }
+
+                    .library-file-item {
+                        padding: 15px;
+                    }
+
+                    .library-file-icon {
+                        font-size: 24px;
+                        margin-right: 15px;
+                    }
+
+                    .library-file-action {
+                        padding: 6px 15px;
+                        font-size: 13px;
+                    }
+                }
+            </style>
+
+            <!-- 文件库脚本 -->
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    // 初始化文件库
+                    initLibrary();
                 });
 
-                // 显示或隐藏空状态
-                if (!hasVisibleFiles) {
-                    if (!empty) {
-                        const libraryList = document.querySelector('.library-list');
-                        libraryList.innerHTML = `
+                function initLibrary() {
+                    // 绑定分类点击事件
+                    const categories = document.querySelectorAll('.library-category');
+                    categories.forEach(category => {
+                        category.addEventListener('click', function () {
+                            // 移除其他分类的active类
+                            categories.forEach(c => c.classList.remove('active'));
+                            // 添加当前分类的active类
+                            this.classList.add('active');
+                            // 显示对应分类的文件
+                            filterFiles(this.textContent);
+                        });
+                    });
+                }
+
+                function filterFiles(category) {
+                    const files = document.querySelectorAll('.library-file-item');
+                    const empty = document.querySelector('.library-empty');
+                    let hasVisibleFiles = false;
+
+                    files.forEach(file => {
+                        if (category === '全部' || file.dataset.category === category) {
+                            file.style.display = '';
+                            hasVisibleFiles = true;
+                        } else {
+                            file.style.display = 'none';
+                        }
+                    });
+
+                    // 显示或隐藏空状态
+                    if (!hasVisibleFiles) {
+                        if (!empty) {
+                            const libraryList = document.querySelector('.library-list');
+                            libraryList.innerHTML = `
                     <div class="library-empty">
                         <i class="fa fa-folder-open-o"></i>
                         <p>暂无文件</p>
                     </div>
                 `;
-                    } else {
-                        empty.style.display = '';
+                        } else {
+                            empty.style.display = '';
+                        }
+                    } else if (empty) {
+                        empty.style.display = 'none';
                     }
-                } else if (empty) {
-                    empty.style.display = 'none';
                 }
-            }
-        </script>
+            </script>
