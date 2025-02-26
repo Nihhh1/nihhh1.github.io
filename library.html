@@ -25,8 +25,8 @@ header-img: "img/library-bg.jpg"
 
 <!-- 文件库主内容 -->
 <div class="container-fluid library-content">
-    <div class="row">
-        <div class="col-lg-12 col-md-12">
+    <div class="row justify-content-center">
+        <div class="col-12">
             <!-- 文件分类标签 -->
             <div class="library-categories-container">
                 <div class="library-categories">
@@ -39,8 +39,10 @@ header-img: "img/library-bg.jpg"
             </div>
 
             <!-- 文件列表 -->
-            <div class="library-list">
-                <!-- 文件列表将通过 JavaScript 动态加载 -->
+            <div class="library-list-container">
+                <div class="library-list">
+                    <!-- 文件列表将通过 JavaScript 动态加载 -->
+                </div>
             </div>
         </div>
     </div>
@@ -74,33 +76,18 @@ header-img: "img/library-bg.jpg"
         padding: 0 20px;
     }
 
-    .library-category {
-        padding: 8px 25px;
-        border-radius: 20px;
-        background-color: #f0f0f0;
-        cursor: pointer;
-        transition: all 0.3s;
-        font-size: 15px;
-        user-select: none;
-    }
-
-    .library-category:hover {
-        background-color: #e0e0e0;
-    }
-
-    .library-category.active {
-        background-color: #337ab7;
-        color: white;
+    .library-list-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
     }
 
     .library-list {
-        max-width: 1200px;
-        margin: 0 auto;
-        min-height: 200px;
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
         gap: 20px;
-        padding: 0 20px 40px;
+        padding: 20px 0;
+        min-height: 300px;
     }
 
     .library-file-item {
@@ -171,7 +158,9 @@ header-img: "img/library-bg.jpg"
         grid-column: 1 / -1;
         background-color: white;
         border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         margin: 20px auto;
+        width: 100%;
         max-width: 400px;
     }
 
@@ -202,10 +191,10 @@ header-img: "img/library-bg.jpg"
 <!-- 文件库脚本 -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // 显示初始空状态
-        showEmptyState();
         // 初始化文件库
         initLibrary();
+        // 加载初始文件列表（全部）
+        loadCategoryFiles('全部');
     });
 
     function showEmptyState() {
@@ -226,8 +215,8 @@ header-img: "img/library-bg.jpg"
                 categories.forEach(c => c.classList.remove('active'));
                 // 添加当前分类的active类
                 this.classList.add('active');
-                // 显示空状态
-                showEmptyState();
+                // 加载对应分类的文件
+                loadCategoryFiles(this.textContent);
             });
         });
     }
@@ -236,14 +225,14 @@ header-img: "img/library-bg.jpg"
         const libraryList = document.querySelector('.library-list');
 
         // 根据分类获取文件夹路径
-        let folderPath = '/files/';
-        if (category !== '全部') {
-            folderPath += category + '/';
-        }
+        let folderPath = category === '全部' ? '/files' : `/files/${category}`;
 
         // 发送请求获取文件列表
         fetch(folderPath)
-            .then(response => response.text())
+            .then(response => {
+                if (!response.ok) throw new Error('Failed to load files');
+                return response.text();
+            })
             .then(html => {
                 // 解析返回的HTML中的文件列表
                 const parser = new DOMParser();
@@ -262,7 +251,8 @@ header-img: "img/library-bg.jpg"
                 libraryList.innerHTML = files.map(file => {
                     const fileName = file.textContent;
                     const fileType = fileName.split('.').pop().toLowerCase();
-                    return createFileItemHTML(fileName, fileType, folderPath + fileName);
+                    const filePath = folderPath + '/' + fileName;
+                    return createFileItemHTML(fileName, fileType, filePath);
                 }).join('');
             })
             .catch(error => {
@@ -305,7 +295,8 @@ header-img: "img/library-bg.jpg"
             'gif': 'fa-file-image-o',
             'zip': 'fa-file-archive-o',
             'rar': 'fa-file-archive-o',
-            'txt': 'fa-file-text-o'
+            'txt': 'fa-file-text-o',
+            'cpp': 'fa-file-text-o'
         };
 
         return iconMap[fileType] || 'fa-file-o';
