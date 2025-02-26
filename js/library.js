@@ -4,6 +4,34 @@ class Library {
         this.currentCategory = '全部';
         this.searchTerm = '';
 
+        // 模拟数据
+        this.mockFiles = [
+            {
+                id: '1',
+                name: '示例文档.pdf',
+                type: 'pdf',
+                size: '2.5MB',
+                category: '文档',
+                uploadDate: '2024-02-24'
+            },
+            {
+                id: '2',
+                name: '项目截图.png',
+                type: 'png',
+                size: '1.2MB',
+                category: '图片',
+                uploadDate: '2024-02-24'
+            },
+            {
+                id: '3',
+                name: '演示视频.mp4',
+                type: 'mp4',
+                size: '15MB',
+                category: '视频',
+                uploadDate: '2024-02-24'
+            }
+        ];
+
         this.init();
     }
 
@@ -26,10 +54,8 @@ class Library {
 
     async loadFiles() {
         try {
-            const response = await fetch('/api/files.json');
-            if (!response.ok) throw new Error('Failed to load files');
-
-            this.files = await response.json();
+            // 使用模拟数据
+            this.files = this.mockFiles;
             this.renderFiles();
         } catch (error) {
             console.error('Error loading files:', error);

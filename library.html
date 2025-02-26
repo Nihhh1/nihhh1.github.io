@@ -5,22 +5,6 @@ description: "我的文件收藏"
 header-img: "img/library-bg.jpg"
 ---
 
-<!-- 文件库搜索框 -->
-<div class="library-search">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="input-group">
-                    <input type="text" class="form-control" id="library-search-input" placeholder="搜索文件...">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">搜索</button>
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <!-- 文件库主内容 -->
 <div class="container library-content">
     <div class="row">
@@ -44,24 +28,24 @@ header-img: "img/library-bg.jpg"
 
 <!-- 文件库样式 -->
 <style>
-    .library-search {
-        padding: 20px 0;
-        background-color: #f8f9fa;
-        margin-bottom: 30px;
-    }
-
     .library-categories {
-        margin-bottom: 20px;
+        margin: 20px 0 30px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
     }
 
     .library-category {
-        display: inline-block;
-        padding: 5px 15px;
-        margin-right: 10px;
-        border-radius: 15px;
+        padding: 8px 20px;
+        border-radius: 20px;
         background-color: #f0f0f0;
         cursor: pointer;
         transition: all 0.3s;
+        font-size: 14px;
+    }
+
+    .library-category:hover {
+        background-color: #e0e0e0;
     }
 
     .library-category.active {
@@ -71,6 +55,66 @@ header-img: "img/library-bg.jpg"
 
     .library-list {
         min-height: 200px;
+    }
+
+    .library-file-item {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        margin-bottom: 15px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .library-file-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .library-file-icon {
+        font-size: 24px;
+        margin-right: 15px;
+        color: #337ab7;
+    }
+
+    .library-file-info {
+        flex-grow: 1;
+    }
+
+    .library-file-name {
+        font-size: 16px;
+        font-weight: 500;
+        margin-bottom: 5px;
+    }
+
+    .library-file-meta {
+        font-size: 12px;
+        color: #666;
+    }
+
+    .library-file-actions {
+        display: flex;
+        gap: 10px;
+    }
+
+    .library-file-action {
+        padding: 8px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .library-empty {
+        text-align: center;
+        padding: 40px;
+        color: #666;
     }
 </style>
 
@@ -82,12 +126,6 @@ header-img: "img/library-bg.jpg"
     });
 
     function initLibrary() {
-        // 绑定搜索事件
-        const searchInput = document.getElementById('library-search-input');
-        searchInput.addEventListener('input', function (e) {
-            searchFiles(e.target.value);
-        });
-
         // 绑定分类点击事件
         const categories = document.querySelectorAll('.library-category');
         categories.forEach(category => {
@@ -96,25 +134,101 @@ header-img: "img/library-bg.jpg"
                 categories.forEach(c => c.classList.remove('active'));
                 // 添加当前分类的active类
                 this.classList.add('active');
-                // 根据分类筛选文件
-                filterFilesByCategory(this.textContent);
+                // 加载对应分类的文件
+                loadCategoryFiles(this.textContent);
             });
         });
 
-        // 加载初始文件列表
-        loadFiles();
+        // 加载初始文件列表（全部）
+        loadCategoryFiles('全部');
     }
 
-    function loadFiles() {
-        // TODO: 从后端API加载文件列表
-        // 这里可以通过 AJAX 请求获取文件列表
+    function loadCategoryFiles(category) {
+        const libraryList = document.querySelector('.library-list');
+
+        // 根据分类获取文件夹路径
+        let folderPath = '/files/';
+        if (category !== '全部') {
+            folderPath += category + '/';
+        }
+
+        // 发送请求获取文件列表
+        fetch(folderPath)
+            .then(response => response.text())
+            .then(html => {
+                // 解析返回的HTML中的文件列表
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const files = Array.from(doc.querySelectorAll('a')).filter(a => {
+                    const href = a.getAttribute('href');
+                    return href && !href.endsWith('/') && href !== '../';
+                });
+
+                if (files.length === 0) {
+                    libraryList.innerHTML = `
+                        <div class="library-empty">
+                            <i class="fa fa-folder-open-o"></i>
+                            <p>该分类下暂无文件</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // 渲染文件列表
+                libraryList.innerHTML = files.map(file => {
+                    const fileName = file.textContent;
+                    const fileType = fileName.split('.').pop().toLowerCase();
+                    return createFileItemHTML(fileName, fileType, folderPath + fileName);
+                }).join('');
+            })
+            .catch(error => {
+                console.error('Error loading files:', error);
+                libraryList.innerHTML = `
+                    <div class="library-empty">
+                        <i class="fa fa-exclamation-circle"></i>
+                        <p>加载文件列表失败</p>
+                    </div>
+                `;
+            });
     }
 
-    function searchFiles(keyword) {
-        // TODO: 实现文件搜索功能
+    function createFileItemHTML(fileName, fileType, filePath) {
+        const iconClass = getFileIcon(fileType);
+        return `
+            <div class="library-file-item">
+                <div class="library-file-icon">
+                    <i class="fa ${iconClass}"></i>
+                </div>
+                <div class="library-file-info">
+                    <div class="library-file-name">${fileName}</div>
+                </div>
+                <div class="library-file-actions">
+                    <a href="${filePath}" class="library-file-action" download>
+                        <i class="fa fa-download"></i> 下载
+                    </a>
+                </div>
+            </div>
+        `;
     }
 
-    function filterFilesByCategory(category) {
-        // TODO: 实现按分类筛选功能
+    function getFileIcon(fileType) {
+        const iconMap = {
+            'pdf': 'fa-file-pdf-o',
+            'doc': 'fa-file-word-o',
+            'docx': 'fa-file-word-o',
+            'xls': 'fa-file-excel-o',
+            'xlsx': 'fa-file-excel-o',
+            'ppt': 'fa-file-powerpoint-o',
+            'pptx': 'fa-file-powerpoint-o',
+            'jpg': 'fa-file-image-o',
+            'jpeg': 'fa-file-image-o',
+            'png': 'fa-file-image-o',
+            'gif': 'fa-file-image-o',
+            'zip': 'fa-file-archive-o',
+            'rar': 'fa-file-archive-o',
+            'txt': 'fa-file-text-o'
+        };
+
+        return iconMap[fileType] || 'fa-file-o';
     }
 </script>
