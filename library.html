@@ -95,7 +95,6 @@ header-img: "img/library-bg.jpg"
         max-width: 1200px;
         margin: 0 auto;
         padding: 0;
-        background-color: #f8f9fa;
         min-height: calc(100vh - 300px);
         box-sizing: border-box;
         display: flex;
@@ -112,7 +111,7 @@ header-img: "img/library-bg.jpg"
     }
 
     .library-categories {
-        width: 1000px;
+        width: 900px;
         margin: 0 auto;
         display: flex;
         flex-wrap: wrap;
@@ -141,16 +140,17 @@ header-img: "img/library-bg.jpg"
     }
 
     .library-list-container {
-        width: 1000px;
+        width: 900px;
         margin: 0 auto;
         padding: 0;
+        background-color: white;
     }
 
     .library-list {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 20px;
-        padding: 20px 0;
+        padding: 0;
     }
 
     .library-file-item {
@@ -250,8 +250,8 @@ header-img: "img/library-bg.jpg"
 
         .library-categories,
         .library-list-container {
-            width: 90%;
-            padding: 0;
+            width: 95%;
+            max-width: 900px;
         }
     }
 
@@ -273,7 +273,6 @@ header-img: "img/library-bg.jpg"
         .library-list {
             grid-template-columns: 1fr;
             gap: 15px;
-            padding: 15px 0;
         }
 
         .library-file-item {
