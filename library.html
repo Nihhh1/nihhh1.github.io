@@ -24,16 +24,18 @@ header-img: "img/library-bg.jpg"
 </style>
 
 <!-- 文件库主内容 -->
-<div class="container library-content">
+<div class="container-fluid library-content">
     <div class="row">
         <div class="col-lg-12 col-md-12">
             <!-- 文件分类标签 -->
-            <div class="library-categories">
-                <span class="library-category active">全部</span>
-                <span class="library-category">文档</span>
-                <span class="library-category">图片</span>
-                <span class="library-category">视频</span>
-                <span class="library-category">其他</span>
+            <div class="library-categories-container">
+                <div class="library-categories">
+                    <span class="library-category active">全部</span>
+                    <span class="library-category">文档</span>
+                    <span class="library-category">图片</span>
+                    <span class="library-category">视频</span>
+                    <span class="library-category">其他</span>
+                </div>
             </div>
 
             <!-- 文件列表 -->
@@ -47,26 +49,39 @@ header-img: "img/library-bg.jpg"
 <!-- 文件库样式 -->
 <style>
     .library-content {
-        max-width: 1200px;
+        max-width: 100%;
         margin: 0 auto;
-        padding: 0 20px;
+        padding: 0;
+        background-color: #f8f9fa;
+        min-height: calc(100vh - 300px);
+    }
+
+    .library-categories-container {
+        width: 100%;
+        background-color: white;
+        padding: 20px 0;
+        border-bottom: 1px solid #eee;
+        margin-bottom: 30px;
     }
 
     .library-categories {
-        margin: 20px 0 30px;
+        max-width: 800px;
+        margin: 0 auto;
         display: flex;
         flex-wrap: wrap;
-        gap: 10px;
+        gap: 15px;
         justify-content: center;
+        padding: 0 20px;
     }
 
     .library-category {
-        padding: 8px 20px;
+        padding: 8px 25px;
         border-radius: 20px;
         background-color: #f0f0f0;
         cursor: pointer;
         transition: all 0.3s;
-        font-size: 14px;
+        font-size: 15px;
+        user-select: none;
     }
 
     .library-category:hover {
@@ -79,11 +94,13 @@ header-img: "img/library-bg.jpg"
     }
 
     .library-list {
+        max-width: 1200px;
+        margin: 0 auto;
         min-height: 200px;
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
         gap: 20px;
-        padding: 20px 0;
+        padding: 0 20px 40px;
     }
 
     .library-file-item {
@@ -149,40 +166,35 @@ header-img: "img/library-bg.jpg"
 
     .library-empty {
         text-align: center;
-        padding: 40px;
+        padding: 60px 0;
         color: #666;
         grid-column: 1 / -1;
+        background-color: white;
+        border-radius: 8px;
+        margin: 20px auto;
+        max-width: 400px;
     }
 
     .library-empty i {
-        font-size: 48px;
+        font-size: 60px;
         color: #d0d0d0;
-        margin-bottom: 15px;
-    }
-
-    .library-empty p {
-        font-size: 14px;
-        color: #999;
-        margin: 0;
     }
 
     /* 响应式布局优化 */
     @media (max-width: 768px) {
-        .library-content {
-            padding: 0 10px;
+        .library-categories {
+            padding: 0 15px;
         }
 
         .library-list {
             grid-template-columns: 1fr;
             gap: 15px;
+            padding: 0 15px 30px;
         }
 
-        .library-file-item {
-            padding: 12px;
-        }
-
-        .library-categories {
-            padding: 0 10px;
+        .library-category {
+            padding: 6px 20px;
+            font-size: 14px;
         }
     }
 </style>
@@ -214,8 +226,8 @@ header-img: "img/library-bg.jpg"
                 categories.forEach(c => c.classList.remove('active'));
                 // 添加当前分类的active类
                 this.classList.add('active');
-                // 加载对应分类的文件
-                loadCategoryFiles(this.textContent);
+                // 显示空状态
+                showEmptyState();
             });
         });
     }
