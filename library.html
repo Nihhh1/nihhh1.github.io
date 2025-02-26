@@ -1,0 +1,120 @@
+---
+layout: page
+title: "文件库"
+description: "我的文件收藏"
+header-img: "img/library-bg.jpg"
+---
+
+<!-- 文件库搜索框 -->
+<div class="library-search">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="library-search-input" placeholder="搜索文件...">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">搜索</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 文件库主内容 -->
+<div class="container library-content">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <!-- 文件分类标签 -->
+            <div class="library-categories">
+                <span class="library-category active">全部</span>
+                <span class="library-category">文档</span>
+                <span class="library-category">图片</span>
+                <span class="library-category">视频</span>
+                <span class="library-category">其他</span>
+            </div>
+
+            <!-- 文件列表 -->
+            <div class="library-list">
+                <!-- 文件列表将通过 JavaScript 动态加载 -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 文件库样式 -->
+<style>
+    .library-search {
+        padding: 20px 0;
+        background-color: #f8f9fa;
+        margin-bottom: 30px;
+    }
+
+    .library-categories {
+        margin-bottom: 20px;
+    }
+
+    .library-category {
+        display: inline-block;
+        padding: 5px 15px;
+        margin-right: 10px;
+        border-radius: 15px;
+        background-color: #f0f0f0;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .library-category.active {
+        background-color: #337ab7;
+        color: white;
+    }
+
+    .library-list {
+        min-height: 200px;
+    }
+</style>
+
+<!-- 文件库脚本 -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // 初始化文件库
+        initLibrary();
+    });
+
+    function initLibrary() {
+        // 绑定搜索事件
+        const searchInput = document.getElementById('library-search-input');
+        searchInput.addEventListener('input', function (e) {
+            searchFiles(e.target.value);
+        });
+
+        // 绑定分类点击事件
+        const categories = document.querySelectorAll('.library-category');
+        categories.forEach(category => {
+            category.addEventListener('click', function () {
+                // 移除其他分类的active类
+                categories.forEach(c => c.classList.remove('active'));
+                // 添加当前分类的active类
+                this.classList.add('active');
+                // 根据分类筛选文件
+                filterFilesByCategory(this.textContent);
+            });
+        });
+
+        // 加载初始文件列表
+        loadFiles();
+    }
+
+    function loadFiles() {
+        // TODO: 从后端API加载文件列表
+        // 这里可以通过 AJAX 请求获取文件列表
+    }
+
+    function searchFiles(keyword) {
+        // TODO: 实现文件搜索功能
+    }
+
+    function filterFilesByCategory(category) {
+        // TODO: 实现按分类筛选功能
+    }
+</script>
