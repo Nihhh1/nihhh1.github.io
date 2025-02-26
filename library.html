@@ -69,278 +69,262 @@ header-img: "img/library-bg.jpg"
                 </div>
                 <div class="library-file-info">
                     <div class="library-file-name" title="{{ file_name }}">{{ file_name }}</div>
-                    <div class="library-file-meta">
-                        {% assign file_size = file.path | size | divided_by: 1024.0 %}
-                        {% if file_size < 1024 %} {{ file_size | round: 1 }}KB {% else %} {{ file_size | divided_by:
-                            1024.0 | round: 1 }}MB {% endif %} | 上传于 {{ file.modified_time | date: "%Y-%m-%d" }} </div>
-                    </div>
-                    <div class="library-file-actions">
-                        <a href="{{ file_path | relative_url }}" class="library-file-action" download>
-                            <i class="fa fa-download"></i>
-                            <span>下载</span>
-                        </a>
-                    </div>
+                    <div class="library-file-meta">0.0KB | 上传于 2025-02-26</div>
                 </div>
-                {% endfor %}
-                {% else %}
-                <div class="library-empty">
-                    <i class="fa fa-folder-open-o"></i>
-                    <p>暂无文件</p>
+                <div class="library-file-actions">
+                    <a href="{{ file_path | relative_url }}" class="library-file-action" download>
+                        <i class="fa fa-download"></i>
+                        <span>下载</span>
+                    </a>
                 </div>
-                {% endif %}
             </div>
+            {% endfor %}
+            {% else %}
+            <div class="library-empty">
+                <i class="fa fa-folder-open-o"></i>
+                <p>暂无文件</p>
+            </div>
+            {% endif %}
         </div>
+    </div>
+</div>
 
-        <!-- 文件库样式 -->
-        <style>
-            .library-content {
-                max-width: 1200px;
-                margin: 0 auto;
-                padding: 20px;
-                background-color: #f8f9fa;
-                min-height: calc(100vh - 300px);
-                box-sizing: border-box;
-            }
+<!-- 文件库样式 -->
+<style>
+    .library-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+        min-height: calc(100vh - 300px);
+        box-sizing: border-box;
+    }
 
-            .library-categories-container {
-                background-color: white;
-                padding: 20px 0;
-                border-bottom: 1px solid #eee;
-                margin-bottom: 30px;
-            }
+    .library-categories-container {
+        background-color: white;
+        padding: 20px 0;
+        border-bottom: 1px solid #eee;
+        margin-bottom: 30px;
+    }
 
-            .library-categories {
-                max-width: 800px;
-                margin: 0 auto;
-                display: flex;
-                flex-wrap: wrap;
-                gap: 15px;
-                justify-content: center;
-                padding: 0 20px;
-            }
+    .library-categories {
+        max-width: 800px;
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        justify-content: center;
+        padding: 0 20px;
+    }
 
-            .library-category {
-                padding: 8px 25px;
-                border-radius: 20px;
-                background-color: #f0f0f0;
-                cursor: pointer;
-                transition: all 0.3s;
-                font-size: 15px;
-                user-select: none;
-            }
+    .library-category {
+        padding: 8px 25px;
+        border-radius: 20px;
+        background-color: #f0f0f0;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: 15px;
+        user-select: none;
+    }
 
-            .library-category:hover {
-                background-color: #e0e0e0;
-            }
+    .library-category:hover {
+        background-color: #e0e0e0;
+    }
 
-            .library-category.active {
-                background-color: #337ab7;
-                color: white;
-            }
+    .library-category.active {
+        background-color: #337ab7;
+        color: white;
+    }
 
-            .library-list-container {
-                max-width: 1160px;
-                margin: 0 auto;
-                padding: 0 20px;
-            }
+    .library-list-container {
+        max-width: 1160px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
 
-            .library-list {
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                gap: 20px;
-                padding: 20px 0;
-                min-height: 300px;
-            }
+    .library-list {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        padding: 20px 0;
+    }
 
-            .library-file-item {
-                display: flex;
-                align-items: center;
-                padding: 20px;
-                background: #fff;
-                border-radius: 10px;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                transition: all 0.3s ease;
-            }
+    .library-file-item {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
 
-            .library-file-item:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            }
+    .library-file-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
 
-            .library-file-icon {
-                font-size: 28px;
-                margin-right: 20px;
-                color: #337ab7;
-                width: 40px;
-                flex-shrink: 0;
-                text-align: center;
-            }
+    .library-file-icon {
+        font-size: 24px;
+        margin-right: 15px;
+        color: #337ab7;
+        width: 30px;
+        flex-shrink: 0;
+        text-align: center;
+    }
 
-            .library-file-info {
-                flex: 1;
-                min-width: 0;
-                margin-right: 15px;
-            }
+    .library-file-info {
+        flex: 1;
+        min-width: 0;
+        margin-right: 15px;
+    }
 
-            .library-file-name {
-                font-size: 16px;
-                font-weight: 500;
-                color: #333;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                margin-bottom: 4px;
-            }
+    .library-file-name {
+        font-size: 14px;
+        font-weight: 500;
+        color: #333;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin-bottom: 4px;
+    }
 
-            .library-file-meta {
-                font-size: 12px;
-                color: #666;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-            }
+    .library-file-meta {
+        font-size: 12px;
+        color: #666;
+    }
 
-            .library-file-actions {
-                flex-shrink: 0;
-            }
+    .library-file-actions {
+        flex-shrink: 0;
+    }
 
-            .library-file-action {
-                padding: 8px 20px;
-                border: none;
-                border-radius: 6px;
-                cursor: pointer;
-                transition: all 0.2s;
-                font-size: 14px;
-                display: inline-flex;
-                align-items: center;
-                gap: 8px;
-                background-color: #337ab7;
-                color: white !important;
-                text-decoration: none !important;
-                white-space: nowrap;
-            }
+    .library-file-action {
+        padding: 6px 12px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-size: 13px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background-color: #337ab7;
+        color: white !important;
+        text-decoration: none !important;
+        white-space: nowrap;
+    }
 
-            .library-file-action:hover {
-                background-color: #286090;
-                transform: translateY(-1px);
-            }
+    .library-file-action:hover {
+        background-color: #286090;
+    }
 
-            .library-empty {
-                text-align: center;
-                padding: 60px 0;
-                color: #666;
-                grid-column: 1 / -1;
-                background-color: white;
-                border-radius: 10px;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                margin: 20px auto;
-                width: 100%;
-                max-width: 400px;
-            }
+    .library-empty {
+        text-align: center;
+        padding: 60px 0;
+        color: #666;
+        grid-column: 1 / -1;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin: 20px auto;
+        width: 100%;
+        max-width: 400px;
+    }
 
-            .library-empty i {
-                font-size: 64px;
-                color: #d0d0d0;
-                margin-bottom: 20px;
-                display: block;
-            }
+    .library-empty i {
+        font-size: 64px;
+        color: #d0d0d0;
+        margin-bottom: 20px;
+        display: block;
+    }
 
-            /* 响应式布局优化 */
-            @media (max-width: 992px) {
-                .library-list {
-                    grid-template-columns: repeat(2, 1fr);
-                }
-            }
+    /* 响应式布局优化 */
+    @media (max-width: 992px) {
+        .library-list {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
 
-            @media (max-width: 768px) {
-                .library-content {
-                    padding: 10px;
-                }
+    @media (max-width: 768px) {
+        .library-content {
+            padding: 10px;
+        }
 
-                .library-list-container {
-                    padding: 0 10px;
-                }
+        .library-list-container {
+            padding: 0 10px;
+        }
 
-                .library-categories {
-                    padding: 0 10px;
-                }
+        .library-categories {
+            padding: 0 10px;
+        }
 
-                .library-category {
-                    padding: 6px 20px;
-                    font-size: 14px;
-                }
+        .library-category {
+            padding: 6px 20px;
+            font-size: 14px;
+        }
 
-                .library-list {
-                    grid-template-columns: 1fr;
-                }
+        .library-list {
+            grid-template-columns: 1fr;
+        }
 
-                .library-file-item {
-                    padding: 15px;
-                }
+        .library-file-item {
+            padding: 15px;
+        }
 
-                .library-file-icon {
-                    font-size: 24px;
-                    margin-right: 15px;
-                }
+        .library-file-icon {
+            font-size: 24px;
+            margin-right: 15px;
+        }
 
-                .library-file-action {
-                    padding: 6px 15px;
-                    font-size: 13px;
-                }
-            }
-        </style>
+        .library-file-action {
+            padding: 6px 15px;
+            font-size: 13px;
+        }
+    }
+</style>
 
-        <!-- 文件库脚本 -->
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                // 初始化文件库
-                initLibrary();
+<!-- 文件库脚本 -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        initLibrary();
+    });
+
+    function initLibrary() {
+        window.originalFilesList = document.querySelector('.library-list').innerHTML;
+
+        const categories = document.querySelectorAll('.library-category');
+        categories.forEach(category => {
+            category.addEventListener('click', function () {
+                categories.forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+                filterFiles(this.textContent);
             });
+        });
+    }
 
-            function initLibrary() {
-                // 保存初始的文件列表HTML
-                window.originalFilesList = document.querySelector('.library-list').innerHTML;
+    function filterFiles(category) {
+        const libraryList = document.querySelector('.library-list');
+        libraryList.innerHTML = window.originalFilesList;
 
-                // 绑定分类点击事件
-                const categories = document.querySelectorAll('.library-category');
-                categories.forEach(category => {
-                    category.addEventListener('click', function () {
-                        // 移除其他分类的active类
-                        categories.forEach(c => c.classList.remove('active'));
-                        // 添加当前分类的active类
-                        this.classList.add('active');
-                        // 显示对应分类的文件
-                        filterFiles(this.textContent);
-                    });
-                });
+        const files = document.querySelectorAll('.library-file-item');
+        let hasVisibleFiles = false;
+
+        files.forEach(file => {
+            if (category === '全部' || file.dataset.category === category) {
+                file.style.display = '';
+                hasVisibleFiles = true;
+            } else {
+                file.style.display = 'none';
             }
+        });
 
-            function filterFiles(category) {
-                const libraryList = document.querySelector('.library-list');
-
-                // 恢复原始文件列表
-                libraryList.innerHTML = window.originalFilesList;
-
-                const files = document.querySelectorAll('.library-file-item');
-                let hasVisibleFiles = false;
-
-                files.forEach(file => {
-                    if (category === '全部' || file.dataset.category === category) {
-                        file.style.display = '';
-                        hasVisibleFiles = true;
-                    } else {
-                        file.style.display = 'none';
-                    }
-                });
-
-                // 显示或隐藏空状态
-                if (!hasVisibleFiles) {
-                    libraryList.innerHTML = `
+        if (!hasVisibleFiles) {
+            libraryList.innerHTML = `
             <div class="library-empty">
                 <i class="fa fa-folder-open-o"></i>
                 <p>暂无文件</p>
             </div>
         `;
-                }
-            }
-        </script>
+        }
+    }
+</script>
