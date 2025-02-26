@@ -57,16 +57,16 @@ header-img: "img/library-bg.jpg"
             <div class="library-file-item" data-category="{{ file_category }}">
                 <div class="library-file-icon">
                     <i class="fa {% case file_ext %}
-                                {% when 'pdf' %}fa-file-pdf-o
-                                {% when 'doc','docx' %}fa-file-word-o
-                                {% when 'xls','xlsx' %}fa-file-excel-o
-                                {% when 'ppt','pptx' %}fa-file-powerpoint-o
-                                {% when 'jpg','jpeg','png','gif' %}fa-file-image-o
-                                {% when 'zip','rar' %}fa-file-archive-o
-                                {% when 'txt' %}fa-file-text-o
-                                {% when 'cpp' %}fa-file-code-o
-                                {% else %}fa-file-o
-                            {% endcase %}"></i>
+                                        {% when 'pdf' %}fa-file-pdf-o
+                                        {% when 'doc','docx' %}fa-file-word-o
+                                        {% when 'xls','xlsx' %}fa-file-excel-o
+                                        {% when 'ppt','pptx' %}fa-file-powerpoint-o
+                                        {% when 'jpg','jpeg','png','gif' %}fa-file-image-o
+                                        {% when 'zip','rar' %}fa-file-archive-o
+                                        {% when 'txt' %}fa-file-text-o
+                                        {% when 'cpp' %}fa-file-code-o
+                                        {% else %}fa-file-o
+                                    {% endcase %}"></i>
                 </div>
                 <div class="library-file-info">
                     <div class="library-file-name" title="{{ file_name }}">{{ file_name }}</div>
@@ -142,13 +142,14 @@ header-img: "img/library-bg.jpg"
         }
 
         .library-list-container {
+            max-width: 1160px;
             margin: 0 auto;
-            padding: 0;
+            padding: 0 20px;
         }
 
         .library-list {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
             padding: 20px 0;
             min-height: 300px;
@@ -254,6 +255,10 @@ header-img: "img/library-bg.jpg"
                 padding: 10px;
             }
 
+            .library-list-container {
+                padding: 0 10px;
+            }
+
             .library-categories {
                 padding: 0 10px;
             }
@@ -331,11 +336,11 @@ header-img: "img/library-bg.jpg"
             // 显示或隐藏空状态
             if (!hasVisibleFiles) {
                 libraryList.innerHTML = `
-                <div class="library-empty">
-                    <i class="fa fa-folder-open-o"></i>
-                    <p>暂无文件</p>
-                </div>
-            `;
+            <div class="library-empty">
+                <i class="fa fa-folder-open-o"></i>
+                <p>暂无文件</p>
+            </div>
+        `;
             }
         }
     </script>
