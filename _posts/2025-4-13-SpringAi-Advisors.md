@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Spring Ai_Advisors
-date: 2025-4-10
+date: 2025-4-13
 author: ni
 catalog: true
 tags:
@@ -43,7 +43,7 @@ tags:
 
 - 其中`MessageChatMemoryAdvisor(chatMemory)`就是用来为请求添加上下文
 
-- 而`QuestionAnswerAdvisor(vectorStore)`后面备注的RAG的意思就是把数据库中的数据喂给Ai，让Ai可以在这些数据中找答案
+- 而`QuestionAnswerAdvisor(vectorStore)`当用户问题发送给 AI 模型时，`QuestionAnswerAdvisor`会查询向量数据库，查找与用户问题相关的文档。
 
 - 例如需要使用关于一个公司的内部知识
 
