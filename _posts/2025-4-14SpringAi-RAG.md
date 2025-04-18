@@ -174,4 +174,9 @@ tags:
 - 导入的文本![](https://nihhh1-blog.oss-cn-beijing.aliyuncs.com/my-blog/Spring%20Ai/Snipaste_2025-04-14_15-40-00.png)
 
 - 结果：![](https://nihhh1-blog.oss-cn-beijing.aliyuncs.com/my-blog/Spring%20Ai/Snipaste_2025-04-14_15-41-11.png)![](https://nihhh1-blog.oss-cn-beijing.aliyuncs.com/my-blog/Spring%20Ai/Snipaste_2025-04-14_15-40-59.png)
+
 - 这样就可以成功查询
+
+- SimpleVectorStore默认使用内存进行保存
+
+- 后续可使用RedisVectorStore进行操作
