@@ -33,3 +33,7 @@ Temporary Items
 
 # debug file
 _site
+
+# Private plaintext and local dependencies
+_private/
+node_modules/

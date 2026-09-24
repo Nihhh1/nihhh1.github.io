@@ -55,8 +55,10 @@ layout: default
                         %} on {{ page.date | date: "%B %-d, %Y" }}</span>
                     <br>
 
+                    {% unless page.encrypted %}
                     本文共{{ content | strip_html | strip_newlines | split: "" | size }} 字 | 大约需要{{ content | strip_html |
                     strip_newlines | split: "" | size | divided_by: 300.0 | round: 2 }} 分钟阅读
+                    {% else %}🔒 加密文章{% endunless %}
                 </div>
             </div>
         </div>
@@ -74,7 +76,11 @@ layout: default
                 col-md-10 col-md-offset-1
                 post-container">
 
+                {% if page.encrypted %}
+                {% include encrypted-post.html %}
+                {% else %}
                 {{ content }}
+                {% endif %}
 
                 <hr style="visibility: hidden;">
 
@@ -164,7 +170,7 @@ layout: default
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                         {% for tag in site.tags %}
-                        {% if tag[1].size > {{site.featured-condition-size}} %}
+                        {% if tag[1].size > site.featured-condition-size %}
                         <a href="/tags/#{{ tag[0] }}" title="{{ tag[0] }}" rel="{{ tag[1].size }}">
                             {{ tag[0] }}
                         </a>

@@ -1,0 +1,24 @@
+<section id="encrypted-post" class="encrypted-post">
+    <form id="unlock-form">
+        <h2>🔒 本文已加密</h2>
+        <p>请输入作者提供的密码。密码仅用于当前页面解密，不会保存或上传。</p>
+        <label for="post-password">文章密码</label>
+        <input id="post-password" type="password" autocomplete="off" required>
+        <button type="submit">解锁阅读</button>
+        <p id="unlock-status" role="status" aria-live="polite"></p>
+    </form>
+    <noscript>需要启用 JavaScript 才能解密文章。</noscript>
+    <button id="lock-post" type="button" hidden>重新上锁</button>
+    <div id="decrypted-content" hidden></div>
+</section>
+<script id="encrypted-payload" type="application/json">{{ page.encrypted_payload | jsonify }}</script>
+<script src="{{ site.baseurl }}/js/encrypted-post.js" defer></script>
+<style>
+.encrypted-post form { padding: 24px; border: 1px solid #ddd; border-radius: 8px; }
+.encrypted-post label { display: block; }
+.encrypted-post input { max-width: 100%; padding: 8px; color: #333; }
+.encrypted-post button { padding: 8px 16px; margin: 8px 0; color: #fff; background: #0085a1; border: 0; border-radius: 4px; }
+.encrypted-post button:disabled { opacity: .6; }
+.encrypted-post [hidden] { display: none !important; }
+#unlock-status { margin-bottom: 0; }
+</style>

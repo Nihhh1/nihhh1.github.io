@@ -1,3 +1,7 @@
+## 加密文章
+
+支持本地加密正文、访客输入密码阅读。操作步骤见 [加密文章使用说明](docs/encrypted-posts.md)。
+
 
 
 ![](https://raw.githubusercontent.com/qiubaiying/qiubaiying.github.io/master/img/readme-home.png)
